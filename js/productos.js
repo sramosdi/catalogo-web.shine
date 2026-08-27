@@ -9,15 +9,15 @@ const productos = [
         categoria: "Victoria's Secret",
         precio: 75.00,
         badge: "Top Ventas",
-        descripcion: "Mist Corporal Bare Importado de EE.UU.",
+        descripcion: "Mist Corporal Bare Vanilla. Importado de EE.UU.",
         imagen: "https://images.unsplash.com/photo-1556228720-195a672e8a03?w=500&q=80"
     },
     {
         id: 2,
-        nombre: "Sérum Niacinamida 10% + Zinc 1% - The Ordinary",
-        categoria: "Pink Beauty",
-        precio: 85.00,
-        badge: null,
+        nombre: "Mist Corporal - Pure Seduction 250ml",
+        categoria: "Victoria's Secret",
+        precio: 75.00,
+        badge: "Top Ventas",
         descripcion: "Fórmula a base de agua que reduce la apariencia de imperfecciones y descongestiona los poros.",
         imagen: "https://images.unsplash.com/photo-1620916566398-39f1143ab7be?w=500&q=80"
     },
@@ -25,7 +25,7 @@ const productos = [
         id: 3,
         nombre: "Lentes de Sol Moda Oversized",
         categoria: "Accesorios",
-        precio: 45.00,
+        precio: 35.00,
         badge: "Nuevo",
         descripcion: "Diseño elegante con protección UV400. Incluye funda protectora y paño microfibra de regalo.",
         imagen: "https://images.unsplash.com/photo-1511499767150-a48a237f0083?w=500&q=80"

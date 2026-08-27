@@ -16,9 +16,9 @@ function renderCategories() {
         "Carteras",
         "Mochilas",
         "Victoria's Secret",
-        "Pink Beauty",
         "Accesorios",
-        "Productos Nacionales"
+        "Productos Nacionales",
+        "A pedido"
     ];
 
     const container = document.getElementById('categories-wrapper');
