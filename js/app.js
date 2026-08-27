@@ -7,10 +7,21 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 // Renderizar botones de categorías dinámicas
+// Renderizar botones de categorías en orden personalizado
 function renderCategories() {
-    const categories = ["Todos", ...new Set(productos.map(p => p.categoria))];
-    const container = document.getElementById('categories-wrapper');
+    // Definimos la lista en el orden exacto que deseas
+    const categories = [
+        "Todos",
+        "Bolsos",
+        "Carteras",
+        "Mochilas",
+        "Victoria's Secret",
+        "Pink Beauty",
+        "Accesorios",
+        "Productos Nacionales"
+    ];
 
+    const container = document.getElementById('categories-wrapper');
     if (!container) return;
 
     container.innerHTML = categories.map(cat => `

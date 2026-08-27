@@ -6,18 +6,18 @@ const productos = [
     {
         id: 1,
         nombre: "Mist Corporal - Bare Vanilla 250ml",
-        categoria: "Cuidado Personal",
-        precio: 85.00,
+        categoria: "Victoria's Secret",
+        precio: 75.00,
         badge: "Top Ventas",
-        descripcion: "Fragancia con aroma a vainilla. Importado de EE.UU.",
+        descripcion: "Mist Corporal Bare Importado de EE.UU.",
         imagen: "https://images.unsplash.com/photo-1556228720-195a672e8a03?w=500&q=80"
     },
     {
         id: 2,
         nombre: "Sérum Niacinamida 10% + Zinc 1% - The Ordinary",
-        categoria: "Cuidado Personal",
-        precio: 49.90,
-        badge: "Oferta",
+        categoria: "Pink Beauty",
+        precio: 85.00,
+        badge: "Top Ventas",
         descripcion: "Fórmula a base de agua que reduce la apariencia de imperfecciones y descongestiona los poros.",
         imagen: "https://images.unsplash.com/photo-1620916566398-39f1143ab7be?w=500&q=80"
     },
@@ -33,7 +33,7 @@ const productos = [
     {
         id: 4,
         nombre: "Lip Gloss Volumizador Neutrogena",
-        categoria: "Maquillaje",
+        categoria: "Accesorios",
         precio: 38.00,
         badge: null,
         descripcion: "Brillo labial hidratante con toque de color natural y sensación refrescante de larga duración.",
@@ -41,8 +41,8 @@ const productos = [
     },
     {
         id: 5,
-        nombre: "Splash Corporal Perfumado Victoria's Secret 250ml",
-        categoria: "Cuidado Personal",
+        nombre: "Mist Corporal Perfumado Victoria's Secret",
+        categoria: "Victoria's Secret",
         precio: 69.00,
         badge: "Destacado",
         descripcion: "Aroma frutal suave y duradero, perfecto para el uso diario. 100% original importado.",
@@ -50,11 +50,11 @@ const productos = [
     },
     {
         id: 6,
-        nombre: "Set de Brochas de Maquillaje Profeshional x12",
-        categoria: "Maquillaje",
-        precio: 55.00,
+        nombre: "Totebag Tommy Hilfiger",
+        categoria: "Bolsos",
+        precio: 319.00,
         badge: null,
-        descripcion: "Cerdas ultra suaves sintéticas de alta calidad. Incluye estuche compacto de viaje.",
+        descripcion: "Bolso original de la marca Tommy Hilfiger. Amplio y perfecto para tus viajes.",
         imagen: "https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?w=500&q=80"
     }
 ];
