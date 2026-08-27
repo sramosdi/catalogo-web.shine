@@ -10,7 +10,7 @@ const productos = [
         precio: 75.00,
         badge: "Top Ventas",
         descripcion: "Mist Corporal Bare Vanilla. Importado de EE.UU.",
-        imagen: "img/productos/mist-bare-vanilla.jpg"
+        imagen: "img/productos/mist-bare-vanilla.jpeg"
     },
     {
         id: 2,
