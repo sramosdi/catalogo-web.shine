@@ -43,7 +43,7 @@ const productos = [
         id: 5,
         nombre: "Mist Corporal Perfumado Victoria's Secret",
         categoria: "Victoria's Secret",
-        precio: 69.00,
+        precio: 75.00,
         badge: "Destacado",
         descripcion: "Aroma frutal suave y duradero, perfecto para el uso diario. 100% original importado.",
         imagen: "https://images.unsplash.com/photo-1592945403244-b3fbafd7f539?w=500&q=80"
