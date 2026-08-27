@@ -44,7 +44,7 @@ const productos = [
         nombre: "Mist Corporal Perfumado Victoria's Secret",
         categoria: "Victoria's Secret",
         precio: 69.00,
-        badge: null,
+        badge: "Destacado",
         descripcion: "Aroma frutal suave y duradero, perfecto para el uso diario. 100% original importado.",
         imagen: "https://images.unsplash.com/photo-1592945403244-b3fbafd7f539?w=500&q=80"
     },
@@ -57,13 +57,4 @@ const productos = [
         descripcion: "Bolso original de la marca Tommy Hilfiger. Amplio y perfecto para tus viajes.",
         imagen: "https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?w=500&q=80"
     },
-    {
-        id: 7,
-        nombre: "Baguette Tommy Hilfiger",
-        categoria: "Carteras",
-        precio: 289.00,
-        badge: null,
-        descripcion: "Bolso original de la marca Tommy Hilfiger. Amplio y perfecto para tus viajes.",
-        imagen: "https://images.unsplash.com/photo-1522330060788-8b13dee7a37e?w=500&q=80"
-    }
 ];
