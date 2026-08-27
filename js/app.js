@@ -9,7 +9,6 @@ document.addEventListener('DOMContentLoaded', () => {
 // Renderizar botones de categorías dinámicas
 // Renderizar botones de categorías en orden personalizado
 function renderCategories() {
-    // Definimos la lista en el orden exacto que deseas
     const categories = [
         "Todos",
         "Bolsos",
@@ -25,7 +24,7 @@ function renderCategories() {
     if (!container) return;
 
     container.innerHTML = categories.map(cat => `
-        <button onclick="selectCategory('${cat}')" 
+        <button onclick="selectCategory(\`${cat}\`)" 
                 class="category-btn px-4 py-1.5 rounded-full text-sm font-semibold whitespace-nowrap transition duration-200 
                        ${cat === selectedCategory ? 'bg-indigo-600 text-white shadow' : 'bg-gray-100 text-gray-600 hover:bg-gray-200'}">
             ${cat}
