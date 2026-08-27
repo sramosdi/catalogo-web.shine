@@ -1,5 +1,5 @@
 // Configura aquí el número de WhatsApp de Shine (código de país + número sin espacios ni +)
-const PHONE_NUMBER = "51992560882"; 
+const PHONE_NUMBER = "51956070081"; 
 
 // Base de datos de productos de Shine
 const productos = [
