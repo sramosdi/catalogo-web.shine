@@ -17,7 +17,7 @@ const productos = [
         nombre: "Sérum Niacinamida 10% + Zinc 1% - The Ordinary",
         categoria: "Pink Beauty",
         precio: 85.00,
-        badge: "Top Ventas",
+        badge: null,
         descripcion: "Fórmula a base de agua que reduce la apariencia de imperfecciones y descongestiona los poros.",
         imagen: "https://images.unsplash.com/photo-1620916566398-39f1143ab7be?w=500&q=80"
     },
