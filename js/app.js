@@ -2,8 +2,6 @@ let cart = [];
 let selectedCategory = "Todos";
 let selectedSubcategory = "Todos";
 
-const PHONE_NUMBER = "51900000000"; // Reemplaza con tu número de WhatsApp
-
 document.addEventListener('DOMContentLoaded', () => {
     renderCategories();
     renderSubcategories();
@@ -83,7 +81,6 @@ function filterProducts(isMobile = false) {
     const filtered = (typeof productos !== 'undefined' ? productos : []).filter(p => {
         const matchesCategory = selectedCategory === "Todos" || p.categoria === selectedCategory;
         
-        // Validación segura de subcategoría
         const subcatVal = p.subcategoria || '';
         const matchesSubcategory = selectedCategory !== "Victoria's Secret" || 
                                    selectedSubcategory === "Todos" || 
@@ -147,7 +144,7 @@ function renderProducts(items) {
     `).join('');
 }
 
-// Funciones del Carrito y Modales
+// Funciones del Carrito
 function addToCart(id) {
     const product = productos.find(p => p.id === id);
     if (!product) return;
@@ -244,6 +241,8 @@ function closeDetailModal() {
 function sendWhatsAppOrder() {
     if (cart.length === 0) return alert("Tu carrito está vacío.");
 
+    const num = typeof PHONE_NUMBER !== 'undefined' ? PHONE_NUMBER : '51900000000';
+
     let message = "¡Hola Shine! ✨ Quisiera realizar el siguiente pedido desde el catálogo virtual:\n\n";
     cart.forEach(item => {
         message += `• *${item.nombre}* (x${item.cantidad}) - S/ ${(item.precio * item.cantidad).toFixed(2)}\n`;
@@ -253,5 +252,5 @@ function sendWhatsAppOrder() {
     message += `\n*Total a Pagar:* S/ ${total.toFixed(2)}\n\n¿Tienen disponibilidad para coordinar el envío?`;
 
     const encoded = encodeURIComponent(message);
-    window.open(`https://wa.me/${PHONE_NUMBER}?text=${encoded}`, '_blank');
+    window.open(`https://wa.me/${num}?text=${encoded}`, '_blank');
 }
