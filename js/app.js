@@ -2,10 +2,11 @@ let cart = [];
 let selectedCategory = "Todos";
 let selectedSubcategory = "Todos";
 
-const PHONE_NUMBER = "51992560882"; // Asegúrate de tener tu número configurado aquí
+const PHONE_NUMBER = "51900000000"; // Reemplaza con tu número de WhatsApp
 
 document.addEventListener('DOMContentLoaded', () => {
     renderCategories();
+    renderSubcategories();
     filterProducts();
 });
 
@@ -34,17 +35,17 @@ function renderCategories() {
     `).join('');
 }
 
-// Seleccionar filtro por categoría principal
+// Seleccionar categoría principal
 function selectCategory(cat) {
     selectedCategory = cat;
-    selectedSubcategory = "Todos"; // Reiniciar subcategoría al cambiar de pestaña
+    selectedSubcategory = "Todos";
     
     renderCategories();
     renderSubcategories();
     filterProducts();
 }
 
-// Renderizar subcategorías (Mists y Lociones solo en Victoria's Secret)
+// Renderizar subcategorías (solo en Victoria's Secret)
 function renderSubcategories() {
     const subContainer = document.getElementById('subcategories-wrapper');
     if (!subContainer) return;
@@ -67,24 +68,29 @@ function renderSubcategories() {
     }
 }
 
-// Seleccionar filtro por subcategoría
+// Seleccionar subcategoría
 function selectSubcategory(sub) {
     selectedSubcategory = sub;
     renderSubcategories();
     filterProducts();
 }
 
-// Filtrar Productos (por Búsqueda, Categoría y Subcategoría)
+// Filtrar Productos con lecturas seguras
 function filterProducts(isMobile = false) {
     const inputElement = document.getElementById(isMobile ? 'search-input-mobile' : 'search-input');
     const query = inputElement ? inputElement.value.toLowerCase() : '';
 
-    const filtered = productos.filter(p => {
+    const filtered = (typeof productos !== 'undefined' ? productos : []).filter(p => {
         const matchesCategory = selectedCategory === "Todos" || p.categoria === selectedCategory;
+        
+        // Validación segura de subcategoría
+        const subcatVal = p.subcategoria || '';
         const matchesSubcategory = selectedCategory !== "Victoria's Secret" || 
                                    selectedSubcategory === "Todos" || 
-                                   p.subcategoria === selectedSubcategory;
-        const matchesQuery = p.nombre.toLowerCase().includes(query) || p.descripcion.toLowerCase().includes(query);
+                                   subcatVal === selectedSubcategory;
+                                   
+        const matchesQuery = (p.nombre || '').toLowerCase().includes(query) || 
+                             (p.descripcion || '').toLowerCase().includes(query);
 
         return matchesCategory && matchesSubcategory && matchesQuery;
     });
@@ -99,7 +105,7 @@ function renderProducts(items) {
 
     if (!grid) return;
 
-    if (items.length === 0) {
+    if (!items || items.length === 0) {
         grid.innerHTML = '';
         if (emptyState) emptyState.classList.remove('hidden');
         return;
@@ -109,19 +115,18 @@ function renderProducts(items) {
     grid.innerHTML = items.map(prod => `
         <div class="bg-white rounded-2xl shadow-sm hover:shadow-xl transition-all duration-300 overflow-hidden border border-gray-100 flex flex-col group">
             <div class="relative overflow-hidden cursor-pointer" onclick="openDetailModal(${prod.id})">
-                <img src="${prod.imagen}" alt="${prod.nombre}" class="w-full h-52 object-cover group-hover:scale-105 transition duration-500">
+                <img src="${prod.imagen || ''}" alt="${prod.nombre || ''}" class="w-full h-52 object-cover group-hover:scale-105 transition duration-500">
                 ${prod.badge ? `<span class="absolute top-3 left-3 bg-amber-400 text-indigo-950 font-black text-xs px-2.5 py-1 rounded-full uppercase tracking-wider shadow">${prod.badge}</span>` : ''}
             </div>
             
             <div class="p-5 flex-grow flex flex-col justify-between">
                 <div>
-                    <span class="text-xs font-bold text-indigo-500 uppercase tracking-wider">${prod.categoria}</span>
-                    <h3 onclick="openDetailModal(${prod.id})" class="font-bold text-gray-800 text-lg mt-1 cursor-pointer hover:text-indigo-600 transition line-clamp-1">${prod.nombre}</h3>
-                    <p class="text-gray-500 text-xs mt-1 line-clamp-2 leading-relaxed">${prod.descripcion}</p>
+                    <span class="text-xs font-bold text-indigo-500 uppercase tracking-wider">${prod.categoria || ''}</span>
+                    <h3 onclick="openDetailModal(${prod.id})" class="font-bold text-gray-800 text-lg mt-1 cursor-pointer hover:text-indigo-600 transition line-clamp-1">${prod.nombre || ''}</h3>
+                    <p class="text-gray-500 text-xs mt-1 line-clamp-2 leading-relaxed">${prod.descripcion || ''}</p>
                     
-                    <!-- Indicador de Stock Disponible -->
                     <p class="text-xs italic text-gray-400 mt-2">
-                        ${prod.stock > 0 
+                        ${(prod.stock && prod.stock > 0) 
                             ? `Stock: ${String(prod.stock).padStart(2, '0')} und.` 
                             : '<span class="text-red-400 not-italic font-medium">Agotado</span>'
                         }
@@ -131,7 +136,7 @@ function renderProducts(items) {
                 <div class="mt-4 flex items-center justify-between border-t pt-3">
                     <div>
                         <span class="text-xs text-gray-400 block">Precio</span>
-                        <span class="text-xl font-black text-gray-900">S/ ${prod.precio.toFixed(2)}</span>
+                        <span class="text-xl font-black text-gray-900">S/ ${(prod.precio || 0).toFixed(2)}</span>
                     </div>
                     <button onclick="addToCart(${prod.id})" class="bg-indigo-600 hover:bg-indigo-700 active:scale-95 text-white p-3 rounded-xl transition shadow-md flex items-center gap-1.5 font-bold text-sm">
                         <i class="fas fa-cart-plus"></i> Añadir
@@ -142,13 +147,12 @@ function renderProducts(items) {
     `).join('');
 }
 
-// Agregar al carrito
+// Funciones del Carrito y Modales
 function addToCart(id) {
     const product = productos.find(p => p.id === id);
     if (!product) return;
 
     const itemInCart = cart.find(p => p.id === id);
-
     if (itemInCart) {
         itemInCart.cantidad++;
     } else {
@@ -157,7 +161,6 @@ function addToCart(id) {
     updateCartUI();
 }
 
-// Cambiar cantidades (+ / -)
 function updateQuantity(id, delta) {
     const item = cart.find(p => p.id === id);
     if (!item) return;
@@ -169,7 +172,6 @@ function updateQuantity(id, delta) {
     updateCartUI();
 }
 
-// Actualizar la interfaz del carrito modal
 function updateCartUI() {
     const totalCount = cart.reduce((sum, item) => sum + item.cantidad, 0);
     const totalPrice = cart.reduce((sum, item) => sum + (item.precio * item.cantidad), 0);
@@ -208,22 +210,20 @@ function updateCartUI() {
     }
 }
 
-// Abrir / Cerrar Carrito
 function toggleCartModal() {
     const modal = document.getElementById('cart-modal');
     if (modal) modal.classList.toggle('hidden');
 }
 
-// Abrir Modal Detalle de Producto
 function openDetailModal(id) {
     const p = productos.find(item => item.id === id);
     if (!p) return;
 
-    document.getElementById('modal-img').src = p.imagen;
-    document.getElementById('modal-category').innerText = p.categoria;
-    document.getElementById('modal-title').innerText = p.nombre;
-    document.getElementById('modal-description').innerText = p.descripcion;
-    document.getElementById('modal-price').innerText = `S/ ${p.precio.toFixed(2)}`;
+    document.getElementById('modal-img').src = p.imagen || '';
+    document.getElementById('modal-category').innerText = p.categoria || '';
+    document.getElementById('modal-title').innerText = p.nombre || '';
+    document.getElementById('modal-description').innerText = p.descripcion || '';
+    document.getElementById('modal-price').innerText = `S/ ${(p.precio || 0).toFixed(2)}`;
     
     const addBtn = document.getElementById('modal-add-btn');
     if (addBtn) {
@@ -241,7 +241,6 @@ function closeDetailModal() {
     if (modal) modal.classList.add('hidden');
 }
 
-// Enviar pedido estructurado por WhatsApp
 function sendWhatsAppOrder() {
     if (cart.length === 0) return alert("Tu carrito está vacío.");
 
