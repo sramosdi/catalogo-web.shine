@@ -10,7 +10,7 @@ const productos = [
         subcategoria: "Mists",
         precio: 75.00,
         badge: "Top Ventas",
-        stock: 5,
+        stock: 1,
         descripcion: "Mist Corporal Bare Vanilla de 250ml. Importado de EE.UU.",
         imagen: "img/mist-bare-vanilla.jpeg"
     },
@@ -225,17 +225,72 @@ const productos = [
     },
     {
         id: 21,
-        nombre: "Loción Corporal Pure Seduction",
+        nombre: "Loción Corporal Bare Vanilla",
         categoria: "Victoria's Secret",
         subcategoria: "Lociones",
         precio: 80.00,
         badge: "Top Ventas",
-        stock: 5,
-        descripcion: "Loción Corporal Pure Seduction de 250ml. Importado de EE.UU.",
+        stock: 0,
+        descripcion: "Loción Corporal Bare Vanilla de 250ml. Importado de EE.UU.",
         imagen: "https://images.unsplash.com/photo-1791916556398-39f1143ab7be?w=500&q=80"
     },
     {
         id: 22,
+        nombre: "Loción Corporal Coconut Passion",
+        categoria: "Victoria's Secret",
+        subcategoria: "Lociones",
+        precio: 80.00,
+        badge: "Destacado",
+        stock: 1,
+        descripcion: "Loción Corporal Coconut Passion de 250ml. Importado de EE.UU.",
+        imagen: "https://images.unsplash.com/photo-1592945403244-b3fbafd7f539?w=500&q=80"
+    },
+    {
+        id: 23,
+        nombre: "Loción Corporal Pure Seduction",
+        categoria: "Victoria's Secret",
+        subcategoria: "Lociones",
+        precio: 80.00,
+        badge: "Destacado",
+        stock: 1,
+        descripcion: "Loción Corporal Pure Seduction de 250ml. Importado de EE.UU.",
+        imagen: "https://images.unsplash.com/photo-1592945403244-b3fbafd7f539?w=500&q=80"
+    },
+    {
+        id: 24,
+        nombre: "Loción Corporal Midnight Bloom",
+        categoria: "Victoria's Secret",
+        subcategoria: "Lociones",
+        precio: 80.00,
+        badge: "Destacado",
+        stock: 0,
+        descripcion: "Loción Corporal Midnight Bloom de 250ml. Importado de EE.UU.",
+        imagen: "https://images.unsplash.com/photo-1592945403244-b3fbafd7f539?w=500&q=80"
+    },
+    {
+        id: 25,
+        nombre: "Loción Corporal Aqua Kiss",
+        categoria: "Victoria's Secret",
+        subcategoria: "Lociones",
+        precio: 80.00,
+        badge: "Destacado",
+        stock: 1,
+        descripcion: "Loción Corporal Aqua Kiss de 250ml. Importado de EE.UU.",
+        imagen: "https://images.unsplash.com/photo-1592945403244-b3fbafd7f539?w=500&q=80"
+    },
+    {
+        id: 26,
+        nombre: "Loción Corporal Wild Neroli",
+        categoria: "Victoria's Secret",
+        subcategoria: "Lociones",
+        precio: 80.00,
+        badge: "Destacado",
+        stock: 5,
+        descripcion: "Loción Corporal Wild Neroli de 250ml. Importado de EE.UU.",
+        imagen: "https://images.unsplash.com/photo-1592945403244-b3fbafd7f539?w=500&q=80"
+    },
+    {
+        id: 27,
         nombre: "Lentes de Sol Moda Oversized",
         categoria: "Accesorios",
         precio: 35.00,
@@ -245,7 +300,7 @@ const productos = [
         imagen: "https://images.unsplash.com/photo-1511499767150-a48a237f0083?w=500&q=80"
     },
     {
-        id: 23,
+        id: 28,
         nombre: "Lip Gloss Volumizador Neutrogena",
         categoria: "Accesorios",
         precio: 38.00,
@@ -255,9 +310,10 @@ const productos = [
         imagen: "https://images.unsplash.com/photo-1586495777744-4413f21062fa?w=500&q=80"
     },
     {
-        id: 24,
+        id: 29,
         nombre: "Loción Corporal Sundrenched Blooms",
         categoria: "Victoria's Secret",
+        subcategoria: "Lociones",
         precio: 75.00,
         badge: "Destacado",
         stock: 5,
@@ -265,7 +321,7 @@ const productos = [
         imagen: "https://images.unsplash.com/photo-1592945403244-b3fbafd7f539?w=500&q=80"
     },
     {
-        id: 25,
+        id: 30,
         nombre: "Totebag Tommy Hilfiger",
         categoria: "Bolsos",
         precio: 319.00,
