@@ -1,12 +1,50 @@
+// Configuración de número de WhatsApp de Shine y Google Sheets API
+const PHONE_NUMBER = "51956070081";
+const API_URL = "https://script.google.com/macros/s/AKfycbzMtEGB5juurr2BcMZ_Opp25v8X1tlhI0PWjJwPL2mKBb2gzz9zjDW1S_ICUW22tJnTlA/exec";
+
+// Variables globales del catálogo
+let productos = [];
 let cart = [];
 let selectedCategory = "Todos";
 let selectedSubcategory = "Todos";
 
+// Cargar catálogo desde Google Sheets al iniciar la página
 document.addEventListener('DOMContentLoaded', () => {
-    renderCategories();
-    renderSubcategories();
-    filterProducts();
+    fetchProductos();
 });
+
+// Función para obtener productos desde Google Sheets
+async function fetchProductos() {
+    const grid = document.getElementById('products-grid');
+    if (grid) {
+        grid.innerHTML = `
+            <div class="col-span-full text-center py-12">
+                <i class="fas fa-spinner fa-spin text-3xl text-indigo-600 mb-3"></i>
+                <p class="text-gray-500 font-medium">Cargando productos en vivo desde Google Sheets...</p>
+            </div>
+        `;
+    }
+
+    try {
+        const res = await fetch(API_URL);
+        productos = await res.json();
+        
+        // Inicializar interfaz una vez cargados los datos
+        renderCategories();
+        renderSubcategories();
+        filterProducts();
+    } catch (error) {
+        console.error("Error al cargar la base de datos:", error);
+        if (grid) {
+            grid.innerHTML = `
+                <div class="col-span-full text-center py-12 text-red-500 font-semibold">
+                    <i class="fas fa-exclamation-triangle text-3xl mb-2"></i>
+                    <p>No se pudieron cargar los productos. Intenta recargar la página.</p>
+                </div>
+            `;
+        }
+    }
+}
 
 // Renderizar botones de categorías principales
 function renderCategories() {
@@ -142,7 +180,7 @@ function renderProducts(items) {
                     <div class="mt-4 flex items-center justify-between border-t pt-3">
                         <div>
                             <span class="text-xs text-gray-400 block">Precio</span>
-                            <span class="text-xl font-black text-gray-900">S/ ${(prod.precio || 0).toFixed(2)}</span>
+                            <span class="text-xl font-black text-gray-900">S/ ${(Number(prod.precio) || 0).toFixed(2)}</span>
                         </div>
                         
                         <button onclick="addToCart(${prod.id})" 
@@ -196,7 +234,7 @@ function updateQuantity(id, delta) {
 
 function updateCartUI() {
     const totalCount = cart.reduce((sum, item) => sum + item.cantidad, 0);
-    const totalPrice = cart.reduce((sum, item) => sum + (item.precio * item.cantidad), 0);
+    const totalPrice = cart.reduce((sum, item) => sum + (Number(item.precio) * item.cantidad), 0);
 
     const badge = document.getElementById('cart-badge');
     const total = document.getElementById('cart-total');
@@ -220,7 +258,7 @@ function updateCartUI() {
                 <img src="${item.imagen}" class="w-14 h-14 object-cover rounded-lg border">
                 <div class="flex-grow">
                     <h4 class="font-bold text-sm text-gray-800 line-clamp-1">${item.nombre}</h4>
-                    <span class="text-xs text-gray-500">S/ ${item.precio.toFixed(2)} c/u</span>
+                    <span class="text-xs text-gray-500">S/ ${Number(item.precio).toFixed(2)} c/u</span>
                 </div>
                 <div class="flex items-center gap-2 bg-gray-100 rounded-lg p-1">
                     <button onclick="updateQuantity(${item.id}, -1)" class="w-6 h-6 bg-white rounded shadow text-xs font-bold text-gray-700 flex items-center justify-center">-</button>
@@ -248,7 +286,7 @@ function openDetailModal(id) {
     document.getElementById('modal-category').innerText = p.categoria || '';
     document.getElementById('modal-title').innerText = p.nombre || '';
     document.getElementById('modal-description').innerText = p.descripcion || '';
-    document.getElementById('modal-price').innerText = `S/ ${(p.precio || 0).toFixed(2)}`;
+    document.getElementById('modal-price').innerText = `S/ ${(Number(p.precio) || 0).toFixed(2)}`;
     
     const addBtn = document.getElementById('modal-add-btn');
     if (addBtn) {
@@ -274,19 +312,18 @@ function closeDetailModal() {
     if (modal) modal.classList.add('hidden');
 }
 
+// Envío de pedido por WhatsApp optimizado con el número oficial de Shine
 function sendWhatsAppOrder() {
     if (cart.length === 0) return alert("Tu carrito está vacío.");
 
-    const num = typeof PHONE_NUMBER !== 'undefined' ? PHONE_NUMBER : '51900000000';
-
-    let message = "¡Hola Shine! ✨ Quisiera realizar el siguiente pedido desde el catálogo virtual:\n\n";
+    let message = "¡Hola Shine Be Yourself! ✨ Quisiera realizar el siguiente pedido desde el catálogo virtual:\n\n";
     cart.forEach(item => {
-        message += `• *${item.nombre}* (x${item.cantidad}) - S/ ${(item.precio * item.cantidad).toFixed(2)}\n`;
+        message += `• *${item.nombre}* (x${item.cantidad}) - S/ ${(Number(item.precio) * item.cantidad).toFixed(2)}\n`;
     });
 
-    const total = cart.reduce((sum, item) => sum + (item.precio * item.cantidad), 0);
-    message += `\n*Total a Pagar:* S/ ${total.toFixed(2)}\n\n¿Tienen disponibilidad para coordinar el envío?`;
+    const total = cart.reduce((sum, item) => sum + (Number(item.precio) * item.cantidad), 0);
+    message += `\n*Total a Pagar:* S/ ${total.toFixed(2)}\n\n¿Tienen disponibilidad para coordinar el pago y envío?`;
 
     const encoded = encodeURIComponent(message);
-    window.open(`https://wa.me/${num}?text=${encoded}`, '_blank');
+    window.open(`https://wa.me/${PHONE_NUMBER}?text=${encoded}`, '_blank');
 }
