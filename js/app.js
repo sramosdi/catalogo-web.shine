@@ -2,7 +2,7 @@ let cart = [];
 let selectedCategory = "Todos";
 let selectedSubcategory = "Todos";
 
-const PHONE_NUMBER = "51900000000"; // Asegúrate de tener tu número configurado aquí
+const PHONE_NUMBER = "51992560882"; // Asegúrate de tener tu número configurado aquí
 
 document.addEventListener('DOMContentLoaded', () => {
     renderCategories();
