@@ -1,13 +1,15 @@
 let cart = [];
 let selectedCategory = "Todos";
+let selectedSubcategory = "Todos";
+
+const PHONE_NUMBER = "51900000000"; // Asegúrate de tener tu número configurado aquí
 
 document.addEventListener('DOMContentLoaded', () => {
     renderCategories();
-    renderProducts(productos);
+    filterProducts();
 });
 
-// Renderizar botones de categorías dinámicas
-// Renderizar botones de categorías en orden personalizado
+// Renderizar botones de categorías principales
 function renderCategories() {
     const categories = [
         "Todos",
@@ -32,22 +34,59 @@ function renderCategories() {
     `).join('');
 }
 
-// Seleccionar filtro por categoría
+// Seleccionar filtro por categoría principal
 function selectCategory(cat) {
     selectedCategory = cat;
+    selectedSubcategory = "Todos"; // Reiniciar subcategoría al cambiar de pestaña
+    
     renderCategories();
+    renderSubcategories();
     filterProducts();
 }
 
-// Filtrar Productos (por búsqueda y categoría)
+// Renderizar subcategorías (Mists y Lociones solo en Victoria's Secret)
+function renderSubcategories() {
+    const subContainer = document.getElementById('subcategories-wrapper');
+    if (!subContainer) return;
+
+    if (selectedCategory === "Victoria's Secret") {
+        const subcategories = ["Todos", "Mists", "Lociones"];
+        subContainer.classList.remove('hidden');
+        
+        subContainer.innerHTML = subcategories.map(sub => `
+            <button onclick="selectSubcategory(\`${sub}\`)" 
+                    class="px-5 py-1 rounded-full text-xs font-semibold transition duration-200 
+                           ${sub === selectedSubcategory 
+                               ? 'bg-purple-600 text-white shadow-sm' 
+                               : 'bg-purple-50 text-purple-700 hover:bg-purple-100 border border-purple-200'}">
+                ${sub}
+            </button>
+        `).join('');
+    } else {
+        subContainer.classList.add('hidden');
+    }
+}
+
+// Seleccionar filtro por subcategoría
+function selectSubcategory(sub) {
+    selectedSubcategory = sub;
+    renderSubcategories();
+    filterProducts();
+}
+
+// Filtrar Productos (por Búsqueda, Categoría y Subcategoría)
 function filterProducts(isMobile = false) {
     const inputElement = document.getElementById(isMobile ? 'search-input-mobile' : 'search-input');
     const query = inputElement ? inputElement.value.toLowerCase() : '';
 
     const filtered = productos.filter(p => {
         const matchesCategory = selectedCategory === "Todos" || p.categoria === selectedCategory;
+        const matchesSubcategory = selectedCategory !== "Victoria's Secret" || 
+                                   selectedSubcategory === "Todos" || 
+                                   p.subcategoria === selectedSubcategory;
         const matchesQuery = p.nombre.toLowerCase().includes(query) || p.descripcion.toLowerCase().includes(query);
-        return matchesCategory && matchesQuery;
+
+        return matchesCategory && matchesSubcategory && matchesQuery;
     });
 
     renderProducts(filtered);
@@ -79,9 +118,17 @@ function renderProducts(items) {
                     <span class="text-xs font-bold text-indigo-500 uppercase tracking-wider">${prod.categoria}</span>
                     <h3 onclick="openDetailModal(${prod.id})" class="font-bold text-gray-800 text-lg mt-1 cursor-pointer hover:text-indigo-600 transition line-clamp-1">${prod.nombre}</h3>
                     <p class="text-gray-500 text-xs mt-1 line-clamp-2 leading-relaxed">${prod.descripcion}</p>
+                    
+                    <!-- Indicador de Stock Disponible -->
+                    <p class="text-xs italic text-gray-400 mt-2">
+                        ${prod.stock > 0 
+                            ? `Stock: ${String(prod.stock).padStart(2, '0')} und.` 
+                            : '<span class="text-red-400 not-italic font-medium">Agotado</span>'
+                        }
+                    </p>
                 </div>
 
-                <div class="mt-5 flex items-center justify-between border-t pt-3">
+                <div class="mt-4 flex items-center justify-between border-t pt-3">
                     <div>
                         <span class="text-xs text-gray-400 block">Precio</span>
                         <span class="text-xl font-black text-gray-900">S/ ${prod.precio.toFixed(2)}</span>
@@ -98,6 +145,8 @@ function renderProducts(items) {
 // Agregar al carrito
 function addToCart(id) {
     const product = productos.find(p => p.id === id);
+    if (!product) return;
+
     const itemInCart = cart.find(p => p.id === id);
 
     if (itemInCart) {

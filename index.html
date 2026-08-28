@@ -60,8 +60,12 @@
     <!-- Categorías (Tabs de filtro) -->
     <div class="bg-white border-b sticky top-16 z-30 shadow-sm">
         <div class="max-w-7xl mx-auto px-4 py-3">
-            <div id="categories-wrapper" class="flex gap-2 overflow-x-auto no-scrollbar py-1">
-                <!-- Se llenan dinámicamente -->
+    <!-- Categorías principales -->
+    <div id="categories-wrapper" class="flex gap-2 overflow-x-auto no-scrollbar py-1">
+        <!-- Se llenan dinámicamente -->
+    </div>
+                <!-- Subcategorías dinámicas (DEBE IR AFUERA) -->
+                <div id="subcategories-wrapper" class="flex justify-center gap-3 my-3 hidden"></div>
             </div>
         </div>
     </div>
