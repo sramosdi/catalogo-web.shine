@@ -95,7 +95,7 @@ function filterProducts(isMobile = false) {
     renderProducts(filtered);
 }
 
-// Renderizar la grilla de productos
+// Renderizar la grilla de productos con validación de stock visual y funcional
 function renderProducts(items) {
     const grid = document.getElementById('products-grid');
     const emptyState = document.getElementById('empty-state');
@@ -109,49 +109,67 @@ function renderProducts(items) {
     }
 
     if (emptyState) emptyState.classList.add('hidden');
-    grid.innerHTML = items.map(prod => `
-        <div class="bg-white rounded-2xl shadow-sm hover:shadow-xl transition-all duration-300 overflow-hidden border border-gray-100 flex flex-col group">
-            <div class="relative overflow-hidden cursor-pointer" onclick="openDetailModal(${prod.id})">
-                <img src="${prod.imagen || ''}" alt="${prod.nombre || ''}" class="w-full h-52 object-cover group-hover:scale-105 transition duration-500">
-                ${prod.badge ? `<span class="absolute top-3 left-3 bg-amber-400 text-indigo-950 font-black text-xs px-2.5 py-1 rounded-full uppercase tracking-wider shadow">${prod.badge}</span>` : ''}
-            </div>
-            
-            <div class="p-5 flex-grow flex flex-col justify-between">
-                <div>
-                    <span class="text-xs font-bold text-indigo-500 uppercase tracking-wider">${prod.categoria || ''}</span>
-                    <h3 onclick="openDetailModal(${prod.id})" class="font-bold text-gray-800 text-lg mt-1 cursor-pointer hover:text-indigo-600 transition line-clamp-1">${prod.nombre || ''}</h3>
-                    <p class="text-gray-500 text-xs mt-1 line-clamp-2 leading-relaxed">${prod.descripcion || ''}</p>
-                    
-                    <p class="text-xs italic text-gray-400 mt-2">
-                        ${(prod.stock && prod.stock > 0) 
-                            ? `Stock: ${String(prod.stock).padStart(2, '0')} und.` 
-                            : '<span class="text-red-400 not-italic font-medium">Agotado</span>'
-                        }
-                    </p>
-                </div>
+    grid.innerHTML = items.map(prod => {
+        const availableStock = prod.stock ?? 0;
+        const isOutOfStock = availableStock <= 0;
 
-                <div class="mt-4 flex items-center justify-between border-t pt-3">
+        return `
+            <div class="bg-white rounded-2xl shadow-sm hover:shadow-xl transition-all duration-300 overflow-hidden border border-gray-100 flex flex-col group ${isOutOfStock ? 'opacity-80' : ''}">
+                <div class="relative overflow-hidden cursor-pointer" onclick="openDetailModal(${prod.id})">
+                    <img src="${prod.imagen || ''}" alt="${prod.nombre || ''}" class="w-full h-52 object-cover group-hover:scale-105 transition duration-500">
+                    ${prod.badge ? `<span class="absolute top-3 left-3 bg-amber-400 text-indigo-950 font-black text-xs px-2.5 py-1 rounded-full uppercase tracking-wider shadow">${prod.badge}</span>` : ''}
+                </div>
+                
+                <div class="p-5 flex-grow flex flex-col justify-between">
                     <div>
-                        <span class="text-xs text-gray-400 block">Precio</span>
-                        <span class="text-xl font-black text-gray-900">S/ ${(prod.precio || 0).toFixed(2)}</span>
+                        <span class="text-xs font-bold text-indigo-500 uppercase tracking-wider">${prod.categoria || ''}</span>
+                        <h3 onclick="openDetailModal(${prod.id})" class="font-bold text-gray-800 text-lg mt-1 cursor-pointer hover:text-indigo-600 transition line-clamp-1">${prod.nombre || ''}</h3>
+                        <p class="text-gray-500 text-xs mt-1 line-clamp-2 leading-relaxed">${prod.descripcion || ''}</p>
+                        
+                        <!-- Indicador Dinámico de Stock -->
+                        <div class="mt-3">
+                            ${!isOutOfStock 
+                                ? `<span class="inline-flex items-center gap-1.5 text-[11px] font-semibold text-emerald-700 bg-emerald-50 px-2.5 py-0.5 rounded-full border border-emerald-200/60">
+                                     <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span> Stock: ${String(availableStock).padStart(2, '0')} und.
+                                   </span>`
+                                : `<span class="inline-flex items-center gap-1.5 text-[11px] font-semibold text-red-600 bg-red-50 px-2.5 py-0.5 rounded-full border border-red-200/60">
+                                     <span class="w-1.5 h-1.5 rounded-full bg-red-500"></span> Agotado
+                                   </span>`
+                            }
+                        </div>
                     </div>
-                    <button onclick="addToCart(${prod.id})" class="bg-indigo-600 hover:bg-indigo-700 active:scale-95 text-white p-3 rounded-xl transition shadow-md flex items-center gap-1.5 font-bold text-sm">
-                        <i class="fas fa-cart-plus"></i> Añadir
-                    </button>
+
+                    <div class="mt-4 flex items-center justify-between border-t pt-3">
+                        <div>
+                            <span class="text-xs text-gray-400 block">Precio</span>
+                            <span class="text-xl font-black text-gray-900">S/ ${(prod.precio || 0).toFixed(2)}</span>
+                        </div>
+                        
+                        <button onclick="addToCart(${prod.id})" 
+                                ${isOutOfStock ? 'disabled' : ''}
+                                class="${isOutOfStock ? 'bg-gray-200 text-gray-400 cursor-not-allowed shadow-none' : 'bg-indigo-600 hover:bg-indigo-700 active:scale-95 text-white shadow-md'} p-3 rounded-xl transition flex items-center gap-1.5 font-bold text-sm">
+                            <i class="fas ${isOutOfStock ? 'fa-ban' : 'fa-cart-plus'}"></i> 
+                            ${isOutOfStock ? 'Agotado' : 'Añadir'}
+                        </button>
+                    </div>
                 </div>
             </div>
-        </div>
-    `).join('');
+        `;
+    }).join('');
 }
 
-// Funciones del Carrito
+// Funciones del Carrito con validación de límite por stock
 function addToCart(id) {
     const product = productos.find(p => p.id === id);
-    if (!product) return;
+    if (!product || (product.stock ?? 0) <= 0) return;
 
     const itemInCart = cart.find(p => p.id === id);
     if (itemInCart) {
-        itemInCart.cantidad++;
+        if (itemInCart.cantidad < product.stock) {
+            itemInCart.cantidad++;
+        } else {
+            alert(`Solo hay ${product.stock} unidades disponibles de este producto.`);
+        }
     } else {
         cart.push({ ...product, cantidad: 1 });
     }
@@ -161,6 +179,13 @@ function addToCart(id) {
 function updateQuantity(id, delta) {
     const item = cart.find(p => p.id === id);
     if (!item) return;
+
+    const product = productos.find(p => p.id === id);
+
+    if (delta > 0 && product && item.cantidad >= product.stock) {
+        alert(`Solo hay ${product.stock} unidades disponibles.`);
+        return;
+    }
 
     item.cantidad += delta;
     if (item.cantidad <= 0) {
@@ -216,6 +241,9 @@ function openDetailModal(id) {
     const p = productos.find(item => item.id === id);
     if (!p) return;
 
+    const availableStock = p.stock ?? 0;
+    const isOutOfStock = availableStock <= 0;
+
     document.getElementById('modal-img').src = p.imagen || '';
     document.getElementById('modal-category').innerText = p.categoria || '';
     document.getElementById('modal-title').innerText = p.nombre || '';
@@ -224,9 +252,17 @@ function openDetailModal(id) {
     
     const addBtn = document.getElementById('modal-add-btn');
     if (addBtn) {
+        addBtn.disabled = isOutOfStock;
+        addBtn.className = isOutOfStock 
+            ? 'bg-gray-300 text-gray-500 cursor-not-allowed w-full py-3 rounded-xl font-bold text-sm'
+            : 'bg-indigo-600 hover:bg-indigo-700 text-white w-full py-3 rounded-xl font-bold text-sm shadow-md transition';
+        addBtn.innerText = isOutOfStock ? 'Agotado' : 'Añadir al Carrito';
+        
         addBtn.onclick = () => {
-            addToCart(p.id);
-            closeDetailModal();
+            if (!isOutOfStock) {
+                addToCart(p.id);
+                closeDetailModal();
+            }
         };
     }
 

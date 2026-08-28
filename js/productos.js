@@ -10,6 +10,7 @@ const productos = [
         subcategoria: "Mists",
         precio: 75.00,
         badge: "Top Ventas",
+        stock: 5,
         descripcion: "Mist Corporal Bare Vanilla de 250ml. Importado de EE.UU.",
         imagen: "img/mist-bare-vanilla.jpeg"
     },
@@ -20,6 +21,7 @@ const productos = [
         subcategoria: "Mists",
         precio: 75.00,
         badge: "Top Ventas",
+        stock: 5,
         descripcion: "Mist Corporal Coconut Passion de 250ml. Importado de EE.UU.",
         imagen: "https://images.unsplash.com/photo-1620916566398-39f1143ab7be?w=500&q=80"
     },
@@ -30,6 +32,7 @@ const productos = [
         subcategoria: "Mists",
         precio: 75.00,
         badge: "Top Ventas",
+        stock: 5,
         descripcion: "Mist Corporal Pure Seduction de 250ml. Importado de EE.UU.",
         imagen: "https://images.unsplash.com/photo-1620916566398-39f1143ab7be?w=500&q=80"
     },
@@ -40,6 +43,7 @@ const productos = [
         subcategoria: "Mists",
         precio: 75.00,
         badge: "Top Ventas",
+        stock: 5,
         descripcion: "Mist Corporal Aqua Kiss de 250ml. Importado de EE.UU.",
         imagen: "https://images.unsplash.com/photo-1620916566398-39f1143ab7be?w=500&q=80"
     },
@@ -50,6 +54,7 @@ const productos = [
         subcategoria: "Mists",
         precio: 75.00,
         badge: "Top Ventas",
+        stock: 5,
         descripcion: "Mist Corporal Rush de 250ml. Importado de EE.UU.",
         imagen: "https://images.unsplash.com/photo-1620916566398-39f1143ab7be?w=500&q=80"
     },
@@ -60,6 +65,7 @@ const productos = [
         subcategoria: "Mists",
         precio: 75.00,
         badge: "Top Ventas",
+        stock: 5,
         descripcion: "Mist Corporal Midnight Bloom de 250ml. Importado de EE.UU.",
         imagen: "https://images.unsplash.com/photo-1620916566398-39f1143ab7be?w=500&q=80"
     },
@@ -70,6 +76,7 @@ const productos = [
         subcategoria: "Mists",
         precio: 75.00,
         badge: "Top Ventas",
+        stock: 5,
         descripcion: "Mist Corporal Velvet Petals de 250ml. Importado de EE.UU.",
         imagen: "https://images.unsplash.com/photo-1620916566398-39f1143ab7be?w=500&q=80"
     },
@@ -80,6 +87,7 @@ const productos = [
         subcategoria: "Mists",
         precio: 75.00,
         badge: "Top Ventas",
+        stock: 5,
         descripcion: "Mist Corporal Love Spell de 250ml. Importado de EE.UU.",
         imagen: "https://images.unsplash.com/photo-1620916566398-39f1143ab7be?w=500&q=80"
     },
@@ -90,6 +98,7 @@ const productos = [
         subcategoria: "Mists",
         precio: 75.00,
         badge: "Top Ventas",
+        stock: 5,
         descripcion: "Mist Corporal Sheer Love de 250ml. Importado de EE.UU.",
         imagen: "https://images.unsplash.com/photo-1620916566398-39f1143ab7be?w=500&q=80"
     },
@@ -100,6 +109,7 @@ const productos = [
         subcategoria: "Mists",
         precio: 75.00,
         badge: "Top Ventas",
+        stock: 5,
         descripcion: "Mist Corporal Pure Seduction Vacation de 250ml. Importado de EE.UU.",
         imagen: "https://images.unsplash.com/photo-1630916566398-39f1143ab7be?w=500&q=80"
     },
@@ -110,6 +120,7 @@ const productos = [
         subcategoria: "Mists",
         precio: 75.00,
         badge: "Top Ventas",
+        stock: 5,
         descripcion: "Mist Corporal Bare Vanilla Vacation de 250ml. Importado de EE.UU.",
         imagen: "https://images.unsplash.com/photo-1720916566398-39f1143ab7be?w=500&q=80"
     },
@@ -120,6 +131,7 @@ const productos = [
         subcategoria: "Mists",
         precio: 75.00,
         badge: "Top Ventas",
+        stock: 5,
         descripcion: "Mist Corporal Love Spell Vacation de 250ml. Importado de EE.UU.",
         imagen: "https://images.unsplash.com/photo-1120916566398-39f1143ab7be?w=500&q=80"
     },
@@ -130,6 +142,7 @@ const productos = [
         subcategoria: "Mists",
         precio: 75.00,
         badge: "Top Ventas",
+        stock: 5,
         descripcion: "Mist Corporal Midnight Magic de 250ml. Importado de EE.UU.",
         imagen: "https://images.unsplash.com/photo-1720916566398-39f1143ab7be?w=500&q=80"
     },
@@ -140,6 +153,7 @@ const productos = [
         subcategoria: "Mists",
         precio: 75.00,
         badge: "Top Ventas",
+        stock: 5,
         descripcion: "Mist Corporal Pitaya Paradise de 250ml. Importado de EE.UU.",
         imagen: "https://images.unsplash.com/photo-1720916556398-39f1143ab7be?w=500&q=80"
     },
@@ -150,6 +164,7 @@ const productos = [
         subcategoria: "Mists",
         precio: 75.00,
         badge: "Top Ventas",
+        stock: 5,
         descripcion: "Mist Corporal Gelato Oasis de 250ml. Importado de EE.UU.",
         imagen: "https://images.unsplash.com/photo-1720916556398-39f1143ab7be?w=500&q=80"
     },
@@ -160,6 +175,7 @@ const productos = [
         subcategoria: "Mists",
         precio: 75.00,
         badge: "Top Ventas",
+        stock: 5,
         descripcion: "Mist Corporal Piña Tropicale de 250ml. Importado de EE.UU.",
         imagen: "https://images.unsplash.com/photo-1721916556398-39f1143ab7be?w=500&q=80"
     },
@@ -170,6 +186,7 @@ const productos = [
         subcategoria: "Mists",
         precio: 75.00,
         badge: "Top Ventas",
+        stock: 5,
         descripcion: "Mist Corporal Isla Hibiscus de 250ml. Importado de EE.UU.",
         imagen: "https://images.unsplash.com/photo-1721916556398-39f1143ab7be?w=500&q=80"
     },
@@ -180,6 +197,7 @@ const productos = [
         subcategoria: "Mists",
         precio: 75.00,
         badge: "Top Ventas",
+        stock: 5,
         descripcion: "Mist Corporal Sundrenched Blooms de 250ml. Importado de EE.UU.",
         imagen: "https://images.unsplash.com/photo-1791916556398-39f1143ab7be?w=500&q=80"
     },
@@ -190,6 +208,7 @@ const productos = [
         subcategoria: "Mists",
         precio: 75.00,
         badge: "Colección Limitada",
+        stock: 5,
         descripcion: "Mist Corporal Serene Blooms de 250ml. Importado de EE.UU.",
         imagen: "https://images.unsplash.com/photo-1791916556398-39f1143ab7be?w=500&q=80"
     },
@@ -200,6 +219,7 @@ const productos = [
         subcategoria: "Mists",
         precio: 75.00,
         badge: "Colección Limitada",
+        stock: 5,
         descripcion: "Mist Corporal Glazed Petals & Berries de 250ml. Importado de EE.UU.",
         imagen: "https://images.unsplash.com/photo-1791916556398-39f1143ab7be?w=500&q=80"
     },
@@ -210,6 +230,7 @@ const productos = [
         subcategoria: "Lociones",
         precio: 80.00,
         badge: "Top Ventas",
+        stock: 5,
         descripcion: "Loción Corporal Pure Seduction de 250ml. Importado de EE.UU.",
         imagen: "https://images.unsplash.com/photo-1791916556398-39f1143ab7be?w=500&q=80"
     },
@@ -219,6 +240,7 @@ const productos = [
         categoria: "Accesorios",
         precio: 35.00,
         badge: "Nuevo",
+        stock: 5,
         descripcion: "Diseño elegante con protección UV400. Incluye funda protectora y paño microfibra de regalo.",
         imagen: "https://images.unsplash.com/photo-1511499767150-a48a237f0083?w=500&q=80"
     },
@@ -228,15 +250,17 @@ const productos = [
         categoria: "Accesorios",
         precio: 38.00,
         badge: null,
+        stock: 5,
         descripcion: "Brillo labial hidratante con toque de color natural y sensación refrescante de larga duración.",
         imagen: "https://images.unsplash.com/photo-1586495777744-4413f21062fa?w=500&q=80"
     },
     {
         id: 24,
-        nombre: "Mist Corporal Perfumado Victoria's Secret",
+        nombre: "Loción Corporal Sundrenched Blooms",
         categoria: "Victoria's Secret",
         precio: 75.00,
         badge: "Destacado",
+        stock: 5,
         descripcion: "Aroma frutal suave y duradero, perfecto para el uso diario. 100% original importado.",
         imagen: "https://images.unsplash.com/photo-1592945403244-b3fbafd7f539?w=500&q=80"
     },
@@ -246,6 +270,7 @@ const productos = [
         categoria: "Bolsos",
         precio: 319.00,
         badge: null,
+        stock: 3,
         descripcion: "Bolso original de la marca Tommy Hilfiger. Amplio y perfecto para tus viajes.",
         imagen: "https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?w=500&q=80"
     },
