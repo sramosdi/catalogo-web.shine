@@ -87,8 +87,11 @@ function renderSubcategories() {
 
     // Mapa escalable de subcategorías
     const subcategoriesMap = {
-        "Victoria's Secret": ["Todos", "Mists", "Lociones"],
-        "Productos Nacionales": ["Todos", "Calzado", "Belleza", "Hogar", "Electrónica", "Decoración", "Otros"]
+        "Victoria's Secret": ["Todos", "Mists", "Lociones", "Mini Fragancias", "Fragancias para Cabello"],
+        "Damas": ["Todos", "Calzado", "Carteras", "Mochilas", "Billeteras", "Morrales", "Relojes", "Lentes", "Cuidado Personal", "Joyería", "Gorros"],
+        "Hogar": ["Todos", "Cocina", "Decoración", "Organización"],
+        "Caballeros": ["Todos", "Gorros", "Morrales", "Relojes", "Billeteras", "Fragancias", "Lentes"],
+        "Niños": ["Todos", "Juguetes", "Accesorios"]
     };
 
     const currentSubcategories = subcategoriesMap[selectedCategory];
