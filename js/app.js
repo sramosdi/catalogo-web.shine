@@ -55,8 +55,7 @@ function renderCategories() {
         "Mochilas",
         "Victoria's Secret",
         "Accesorios",
-        "Productos Nacionales",
-        "A pedido"
+        "Productos Nacionales"
     ];
 
     const container = document.getElementById('categories-wrapper');
