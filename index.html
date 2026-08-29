@@ -13,12 +13,12 @@
         .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
     </style>
 </head>
-<body class="bg-gray-100 text-gray-800 antialiased font-sans min-h-screen flex flex-col relative">
+<body class="bg-gray-100 text-gray-800 antialiased font-sans min-h-screen flex flex-col">
 
     <!-- Header Principal (Sticky en top-0) -->
     <header id="main-header" class="bg-indigo-600 text-white sticky top-0 z-40 shadow-lg">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between gap-4">
-            <!-- Brand / Logo (Recarga y vuelve al inicio) -->
+            <!-- Brand / Logo -->
             <a href="index.html" class="flex items-center gap-2 cursor-pointer hover:opacity-90 transition">
                 <i class="fas fa-store text-2xl text-amber-300"></i>
                 <h1 class="text-xl font-black tracking-wide bg-gradient-to-r from-white to-indigo-200 bg-clip-text text-transparent">Shine.tpp</h1>
@@ -57,14 +57,14 @@
         </div>
     </section>
 
-    <!-- Categorías (Sticky siempre visible tanto en móvil como en escritorio) -->
+    <!-- Categorías (Sticky) -->
     <div class="bg-white border-b sticky top-[108px] md:top-16 z-30 shadow-md transition-all">
         <div class="max-w-7xl mx-auto px-4 py-2.5">
             <!-- Categorías principales -->
             <div id="categories-wrapper" class="flex gap-2 overflow-x-auto no-scrollbar py-0.5">
                 <!-- Se llenan dinámicamente -->
             </div>
-            <!-- Subcategorías dinámicas con scroll horizontal independiente -->
+            <!-- Subcategorías dinámicas -->
             <div id="subcategories-wrapper" class="flex gap-2 overflow-x-auto no-scrollbar my-2 pb-1 hidden"></div>
         </div>
     </div>
@@ -114,18 +114,16 @@
         </div>
     </div>
 
-    <!-- Modal Detalle del Producto (Optimizado para Mobile) -->
+    <!-- Modal Detalle del Producto -->
     <div id="product-detail-modal" class="fixed inset-0 z-50 hidden flex items-center justify-center p-4">
         <div class="absolute inset-0 bg-black/60 backdrop-blur-sm" onclick="closeDetailModal()"></div>
         <div class="bg-white rounded-2xl max-w-lg w-full z-10 overflow-hidden shadow-2xl relative flex flex-col">
             <button onclick="closeDetailModal()" class="absolute top-3 right-3 bg-white/80 hover:bg-white text-gray-800 rounded-full w-8 h-8 flex items-center justify-center shadow font-bold z-20">&times;</button>
             
-            <!-- Contenedor adaptativo de imagen completa -->
             <div class="relative w-full h-64 sm:h-80 bg-gray-50 flex items-center justify-center p-4 overflow-hidden border-b">
                 <img id="modal-img" src="" alt="" class="max-h-full max-w-full object-contain mx-auto">
             </div>
 
-            <!-- Detalles del producto y acciones -->
             <div class="p-6 flex flex-col">
                 <span id="modal-category" class="text-xs font-bold text-indigo-600 uppercase tracking-wider"></span>
                 <h3 id="modal-title" class="text-2xl font-black text-gray-800 mt-1"></h3>
@@ -167,8 +165,8 @@
         </div>
     </div>
 
-    <!-- Contenedor para Notificaciones Flotantes (Toast) -->
-    <div id="toast-container" class="fixed bottom-5 right-5 z-50 flex flex-col gap-2 pointer-events-none"></div>
+    <!-- Contenedor Flotante de Notificaciones (Toasts) -->
+    <div id="toast-container" class="fixed bottom-5 right-5 z-50 flex flex-col gap-2 max-w-xs sm:max-w-sm w-full pointer-events-none px-4 sm:px-0"></div>
 
     <!-- Footer -->
     <footer class="bg-gray-800 text-gray-400 text-center py-6 border-t text-sm">

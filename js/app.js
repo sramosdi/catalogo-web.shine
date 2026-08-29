@@ -80,12 +80,11 @@ function selectCategory(cat) {
     filterProducts();
 }
 
-// Renderizar subcategorías dinámicamente (Victoria's Secret y Productos Nacionales)
+// Renderizar subcategorías dinámicamente
 function renderSubcategories() {
     const subContainer = document.getElementById('subcategories-wrapper');
     if (!subContainer) return;
 
-    // Mapa escalable de subcategorías
     const subcategoriesMap = {
         "Victoria's Secret": ["Todos", "Mists", "Lociones", "Mini Fragancias", "Fragancias para Cabello"],
         "Damas": ["Todos", "Calzado", "Carteras", "Mochilas", "Billeteras", "Morrales", "Relojes", "Lentes", "Cuidado Personal", "Joyería", "Gorros"],
@@ -127,10 +126,8 @@ function filterProducts(isMobile = false) {
 
     const filtered = (typeof productos !== 'undefined' ? productos : []).filter(p => {
         const matchesCategory = selectedCategory === "Todos" || p.categoria === selectedCategory;
-        
         const subcatVal = p.subcategoria || '';
         const matchesSubcategory = selectedSubcategory === "Todos" || subcatVal === selectedSubcategory;
-                                   
         const matchesQuery = (p.nombre || '').toLowerCase().includes(query) || 
                              (p.descripcion || '').toLowerCase().includes(query);
 
@@ -190,7 +187,6 @@ function renderProducts(items) {
                             <span class="text-lg font-black text-gray-900 whitespace-nowrap">S/ ${(Number(prod.precio) || 0).toFixed(2)}</span>
                         </div>
                         
-                        <!-- Botón Dinámico: Añadir al Carrito si hay stock | A Pedido si está agotado -->
                         ${!isOutOfStock 
                             ? `<button onclick="addToCart(${prod.id})" 
                                        class="bg-indigo-600 hover:bg-indigo-700 active:scale-95 text-white shadow-md px-3 py-2.5 rounded-xl transition flex items-center gap-1.5 font-bold text-xs sm:text-sm">
@@ -208,7 +204,7 @@ function renderProducts(items) {
     }).join('');
 }
 
-// Redirección directa a WhatsApp para productos agotados (A pedido)
+// Redirección directa a WhatsApp para productos agotados
 function requestOnOrder(productId) {
     const prod = productos.find(p => p.id === productId);
     if (!prod) return;
@@ -222,7 +218,7 @@ function requestOnOrder(productId) {
     window.open(`https://wa.me/${PHONE_NUMBER}?text=${encoded}`, '_blank');
 }
 
-// Funciones del Carrito con validación de límite por stock
+// Funciones del Carrito con Toast Integrado
 function addToCart(id) {
     const product = productos.find(p => p.id === id);
     if (!product || (product.stock ?? 0) <= 0) return;
@@ -231,13 +227,14 @@ function addToCart(id) {
     if (itemInCart) {
         if (itemInCart.cantidad < product.stock) {
             itemInCart.cantidad++;
-            showToast(`¡${product.nombre} añadido (+1)!`);
+            showToast(`Se aumentó la cantidad de "${product.nombre}"`, 'success', 'fa-cart-plus');
         } else {
+            showToast(`Solo hay ${product.stock} unidades disponibles de este producto.`, 'warning', 'fa-exclamation-triangle');
             showCustomAlert(`Solo hay ${product.stock} unidades disponibles de este producto.`);
         }
     } else {
         cart.push({ ...product, cantidad: 1 });
-        showToast(`¡${product.nombre} agregado al carrito!`);
+        showToast(`"${product.nombre}" agregado al carrito`, 'success', 'fa-check-circle');
     }
     updateCartUI();
 }
@@ -249,6 +246,7 @@ function updateQuantity(id, delta) {
     const product = productos.find(p => p.id === id);
 
     if (delta > 0 && product && item.cantidad >= product.stock) {
+        showToast(`Límite alcanzado: solo ${product.stock} disponibles.`, 'warning', 'fa-exclamation-triangle');
         showCustomAlert(`Solo hay ${product.stock} unidades disponibles.`);
         return;
     }
@@ -256,6 +254,7 @@ function updateQuantity(id, delta) {
     item.cantidad += delta;
     if (item.cantidad <= 0) {
         cart = cart.filter(p => p.id !== id);
+        showToast(`Producto eliminado del carrito`, 'info', 'fa-trash-alt');
     }
     updateCartUI();
 }
@@ -346,9 +345,12 @@ function closeDetailModal() {
     if (modal) modal.classList.add('hidden');
 }
 
-// Envío de pedido por WhatsApp del carrito general
+// Envío de pedido por WhatsApp
 function sendWhatsAppOrder() {
-    if (cart.length === 0) return showCustomAlert("Tu carrito está vacío. Agrega productos para realizar un pedido.", "Carrito Vacío");
+    if (cart.length === 0) {
+        showToast("Tu carrito está vacío", "warning", "fa-shopping-cart");
+        return showCustomAlert("Tu carrito está vacío. Agrega productos para realizar un pedido.", "Carrito Vacío");
+    }
 
     let message = "¡Hola Shine Be Yourself! ✨ Quisiera realizar el siguiente pedido desde el catálogo virtual:\n\n";
     cart.forEach(item => {
@@ -362,7 +364,7 @@ function sendWhatsAppOrder() {
     window.open(`https://wa.me/${PHONE_NUMBER}?text=${encoded}`, '_blank');
 }
 
-// Funciones de Alerta Personalizada
+// Funciones de Alerta Personalizada (Modal)
 function showCustomAlert(message, title = "Límite de Stock") {
     const alertModal = document.getElementById('custom-alert-modal');
     const alertTitle = document.getElementById('custom-alert-title');
@@ -382,29 +384,45 @@ function closeCustomAlert() {
     if (alertModal) alertModal.classList.add('hidden');
 }
 
-// Sistema de Notificaciones Flotantes (Toast)
-function showToast(message, type = 'success') {
+// SISTEMA DE NOTIFICACIONES FLOTANTES (TOAST)
+function showToast(message, type = 'success', icon = 'fa-check-circle') {
     const container = document.getElementById('toast-container');
     if (!container) return;
 
+    // Configuración visual según el tipo de mensaje
+    let bgColors = 'bg-gray-900 border-gray-700 text-white';
+    let iconColor = 'text-emerald-400';
+
+    if (type === 'warning') {
+        bgColors = 'bg-amber-900/90 border-amber-600 text-amber-100';
+        iconColor = 'text-amber-300';
+    } else if (type === 'info') {
+        bgColors = 'bg-indigo-900/90 border-indigo-600 text-indigo-100';
+        iconColor = 'text-indigo-300';
+    } else if (type === 'error') {
+        bgColors = 'bg-red-900/90 border-red-600 text-red-100';
+        iconColor = 'text-red-300';
+    }
+
     const toast = document.createElement('div');
-    toast.className = `pointer-events-auto bg-gray-900 text-white text-sm font-semibold px-4 py-3 rounded-xl shadow-2xl flex items-center gap-2 transform transition-all duration-300 opacity-0 translate-y-4 border border-gray-700`;
+    toast.className = `pointer-events-auto flex items-center gap-3 px-4 py-3 rounded-2xl shadow-2xl border backdrop-blur-md transform transition-all duration-300 translate-y-5 opacity-0 ${bgColors}`;
     
-    const icon = type === 'success' ? 'fa-check-circle text-emerald-400' : 'fa-info-circle text-indigo-400';
-    toast.innerHTML = `<i class="fas ${icon} text-base"></i> <span>${message}</span>`;
+    toast.innerHTML = `
+        <i class="fas ${icon} text-lg ${iconColor} shrink-0"></i>
+        <p class="text-xs sm:text-sm font-semibold flex-grow">${message}</p>
+        <button onclick="this.parentElement.remove()" class="text-gray-400 hover:text-white transition text-sm ml-2">&times;</button>
+    `;
 
     container.appendChild(toast);
 
     // Animación de entrada
-    setTimeout(() => {
-        toast.classList.remove('opacity-0', 'translate-y-4');
-        toast.classList.add('opacity-100', 'translate-y-0');
-    }, 10);
+    requestAnimationFrame(() => {
+        toast.classList.remove('translate-y-5', 'opacity-0');
+    });
 
-    // Salida y destrucción automática tras 3 segundos
+    // Auto-eliminación tras 3.5 segundos
     setTimeout(() => {
-        toast.classList.remove('opacity-100', 'translate-y-0');
-        toast.classList.add('opacity-0', 'translate-y-4');
+        toast.classList.add('translate-y-2', 'opacity-0');
         setTimeout(() => toast.remove(), 300);
-    }, 3000);
+    }, 3500);
 }
