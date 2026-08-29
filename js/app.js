@@ -153,9 +153,9 @@ function renderProducts(items) {
 
         return `
             <div class="bg-white rounded-2xl shadow-sm hover:shadow-xl transition-all duration-300 overflow-hidden border border-gray-100 flex flex-col group ${isOutOfStock ? 'opacity-80' : ''}">
-                <div class="relative overflow-hidden cursor-pointer" onclick="openDetailModal(${prod.id})">
-                    <img src="${prod.imagen || ''}" alt="${prod.nombre || ''}" class="w-full h-52 object-cover group-hover:scale-105 transition duration-500">
-                    ${prod.badge ? `<span class="absolute top-3 left-3 bg-amber-400 text-indigo-950 font-black text-xs px-2.5 py-1 rounded-full uppercase tracking-wider shadow">${prod.badge}</span>` : ''}
+                <div class="relative overflow-hidden cursor-pointer h-52 bg-gray-50 flex items-center justify-center p-2" onclick="openDetailModal(${prod.id})">
+                    <img src="${prod.imagen || ''}" alt="${prod.nombre || ''}" class="max-h-full max-w-full object-contain group-hover:scale-105 transition duration-500">
+                    ${prod.badge ? `<span class="absolute top-3 left-3 bg-amber-400 text-indigo-950 font-black text-xs px-2.5 py-1 rounded-full uppercase tracking-wider shadow z-10">${prod.badge}</span>` : ''}
                 </div>
                 
                 <div class="p-5 flex-grow flex flex-col justify-between">
@@ -177,15 +177,15 @@ function renderProducts(items) {
                         </div>
                     </div>
 
-                    <div class="mt-4 flex items-center justify-between border-t pt-3">
-                        <div>
+                    <div class="mt-4 flex items-center justify-between border-t pt-3 gap-2">
+                        <div class="shrink-0">
                             <span class="text-xs text-gray-400 block">Precio</span>
-                            <span class="text-xl font-black text-gray-900">S/ ${(Number(prod.precio) || 0).toFixed(2)}</span>
+                            <span class="text-lg font-black text-gray-900 whitespace-nowrap">S/ ${(Number(prod.precio) || 0).toFixed(2)}</span>
                         </div>
                         
                         <button onclick="addToCart(${prod.id})" 
                                 ${isOutOfStock ? 'disabled' : ''}
-                                class="${isOutOfStock ? 'bg-gray-200 text-gray-400 cursor-not-allowed shadow-none' : 'bg-indigo-600 hover:bg-indigo-700 active:scale-95 text-white shadow-md'} p-3 rounded-xl transition flex items-center gap-1.5 font-bold text-sm">
+                                class="${isOutOfStock ? 'bg-gray-200 text-gray-400 cursor-not-allowed shadow-none' : 'bg-indigo-600 hover:bg-indigo-700 active:scale-95 text-white shadow-md'} px-3 py-2.5 rounded-xl transition flex items-center gap-1.5 font-bold text-xs sm:text-sm">
                             <i class="fas ${isOutOfStock ? 'fa-ban' : 'fa-cart-plus'}"></i> 
                             ${isOutOfStock ? 'Agotado' : 'Añadir'}
                         </button>
@@ -255,7 +255,7 @@ function updateCartUI() {
     } else {
         container.innerHTML = cart.map(item => `
             <div class="py-3 flex items-center justify-between gap-3">
-                <img src="${item.imagen}" class="w-14 h-14 object-cover rounded-lg border">
+                <img src="${item.imagen}" class="w-14 h-14 object-contain rounded-lg border bg-gray-50">
                 <div class="flex-grow">
                     <h4 class="font-bold text-sm text-gray-800 line-clamp-1">${item.nombre}</h4>
                     <span class="text-xs text-gray-500">S/ ${Number(item.precio).toFixed(2)} c/u</span>
@@ -275,6 +275,7 @@ function toggleCartModal() {
     if (modal) modal.classList.toggle('hidden');
 }
 
+// Modal de detalle con formateo dinámico y soporte responsive total
 function openDetailModal(id) {
     const p = productos.find(item => item.id === id);
     if (!p) return;
@@ -292,9 +293,12 @@ function openDetailModal(id) {
     if (addBtn) {
         addBtn.disabled = isOutOfStock;
         addBtn.className = isOutOfStock 
-            ? 'bg-gray-300 text-gray-500 cursor-not-allowed w-full py-3 rounded-xl font-bold text-sm'
-            : 'bg-indigo-600 hover:bg-indigo-700 text-white w-full py-3 rounded-xl font-bold text-sm shadow-md transition';
-        addBtn.innerText = isOutOfStock ? 'Agotado' : 'Añadir al Carrito';
+            ? 'flex-grow bg-gray-200 text-gray-400 cursor-not-allowed py-3 px-4 rounded-xl font-bold text-sm sm:text-base flex items-center justify-center gap-2'
+            : 'flex-grow bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3 px-4 rounded-xl shadow transition flex items-center justify-center gap-2 text-sm sm:text-base';
+        
+        addBtn.innerHTML = isOutOfStock 
+            ? '<i class="fas fa-ban"></i> Agotado' 
+            : '<i class="fas fa-cart-plus"></i> Añadir al Carrito';
         
         addBtn.onclick = () => {
             if (!isOutOfStock) {
