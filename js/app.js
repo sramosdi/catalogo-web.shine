@@ -133,7 +133,7 @@ function filterProducts(isMobile = false) {
     renderProducts(filtered);
 }
 
-// Renderizar la grilla de productos con validación de stock visual y funcional
+// Renderizar la grilla de productos con soporte dinámico para stock y botón "A pedido"
 function renderProducts(items) {
     const grid = document.getElementById('products-grid');
     const emptyState = document.getElementById('empty-state');
@@ -152,7 +152,7 @@ function renderProducts(items) {
         const isOutOfStock = availableStock <= 0;
 
         return `
-            <div class="bg-white rounded-2xl shadow-sm hover:shadow-xl transition-all duration-300 overflow-hidden border border-gray-100 flex flex-col group ${isOutOfStock ? 'opacity-80' : ''}">
+            <div class="bg-white rounded-2xl shadow-sm hover:shadow-xl transition-all duration-300 overflow-hidden border border-gray-100 flex flex-col group ${isOutOfStock ? 'opacity-90' : ''}">
                 <div class="relative overflow-hidden cursor-pointer h-52 bg-gray-50 flex items-center justify-center p-2" onclick="openDetailModal(${prod.id})">
                     <img src="${prod.imagen || ''}" alt="${prod.nombre || ''}" class="max-h-full max-w-full object-contain group-hover:scale-105 transition duration-500">
                     ${prod.badge ? `<span class="absolute top-3 left-3 bg-amber-400 text-indigo-950 font-black text-xs px-2.5 py-1 rounded-full uppercase tracking-wider shadow z-10">${prod.badge}</span>` : ''}
@@ -183,17 +183,36 @@ function renderProducts(items) {
                             <span class="text-lg font-black text-gray-900 whitespace-nowrap">S/ ${(Number(prod.precio) || 0).toFixed(2)}</span>
                         </div>
                         
-                        <button onclick="addToCart(${prod.id})" 
-                                ${isOutOfStock ? 'disabled' : ''}
-                                class="${isOutOfStock ? 'bg-gray-200 text-gray-400 cursor-not-allowed shadow-none' : 'bg-indigo-600 hover:bg-indigo-700 active:scale-95 text-white shadow-md'} px-3 py-2.5 rounded-xl transition flex items-center gap-1.5 font-bold text-xs sm:text-sm">
-                            <i class="fas ${isOutOfStock ? 'fa-ban' : 'fa-cart-plus'}"></i> 
-                            ${isOutOfStock ? 'Agotado' : 'Añadir'}
-                        </button>
+                        <!-- Botón Dinámico: Añadir al Carrito si hay stock | A Pedido si está agotado -->
+                        ${!isOutOfStock 
+                            ? `<button onclick="addToCart(${prod.id})" 
+                                       class="bg-indigo-600 hover:bg-indigo-700 active:scale-95 text-white shadow-md px-3 py-2.5 rounded-xl transition flex items-center gap-1.5 font-bold text-xs sm:text-sm">
+                                   <i class="fas fa-cart-plus"></i> Añadir
+                               </button>`
+                            : `<button onclick="requestOnOrder(${prod.id})" 
+                                       class="bg-amber-500 hover:bg-amber-600 active:scale-95 text-white shadow-md px-3 py-2.5 rounded-xl transition flex items-center gap-1.5 font-bold text-xs sm:text-sm">
+                                   <i class="fab fa-whatsapp"></i> A pedido
+                               </button>`
+                        }
                     </div>
                 </div>
             </div>
         `;
     }).join('');
+}
+
+// Redirección directa a WhatsApp para productos agotados (A pedido)
+function requestOnOrder(productId) {
+    const prod = productos.find(p => p.id === productId);
+    if (!prod) return;
+
+    const message = `¡Hola Shine Be Yourself! ✨ Me interesa solicitar *A PEDIDO* el siguiente producto que figura como agotado en el catálogo:\n\n` +
+                    `📌 *Producto:* ${prod.nombre}\n` +
+                    `💰 *Precio referencial:* S/ ${(Number(prod.precio) || 0).toFixed(2)}\n\n` +
+                    `¿Me podrían brindar información sobre los tiempos de importación/llegada y cómo realizar la reserva?`;
+
+    const encoded = encodeURIComponent(message);
+    window.open(`https://wa.me/${PHONE_NUMBER}?text=${encoded}`, '_blank');
 }
 
 // Funciones del Carrito con validación de límite por stock
@@ -275,7 +294,7 @@ function toggleCartModal() {
     if (modal) modal.classList.toggle('hidden');
 }
 
-// Modal de detalle con formateo dinámico y soporte responsive total
+// Modal de detalle con botón condicional "Añadir al Carrito" o "Solicitar a Pedido"
 function openDetailModal(id) {
     const p = productos.find(item => item.id === id);
     if (!p) return;
@@ -291,21 +310,23 @@ function openDetailModal(id) {
     
     const addBtn = document.getElementById('modal-add-btn');
     if (addBtn) {
-        addBtn.disabled = isOutOfStock;
-        addBtn.className = isOutOfStock 
-            ? 'flex-grow bg-gray-200 text-gray-400 cursor-not-allowed py-3 px-4 rounded-xl font-bold text-sm sm:text-base flex items-center justify-center gap-2'
-            : 'flex-grow bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3 px-4 rounded-xl shadow transition flex items-center justify-center gap-2 text-sm sm:text-base';
-        
-        addBtn.innerHTML = isOutOfStock 
-            ? '<i class="fas fa-ban"></i> Agotado' 
-            : '<i class="fas fa-cart-plus"></i> Añadir al Carrito';
-        
-        addBtn.onclick = () => {
-            if (!isOutOfStock) {
+        if (isOutOfStock) {
+            addBtn.disabled = false;
+            addBtn.className = 'flex-grow bg-amber-500 hover:bg-amber-600 text-white font-bold py-3 px-4 rounded-xl shadow transition flex items-center justify-center gap-2 text-sm sm:text-base active:scale-95';
+            addBtn.innerHTML = '<i class="fab fa-whatsapp"></i> Solicitar a Pedido';
+            addBtn.onclick = () => {
+                requestOnOrder(p.id);
+                closeDetailModal();
+            };
+        } else {
+            addBtn.disabled = false;
+            addBtn.className = 'flex-grow bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3 px-4 rounded-xl shadow transition flex items-center justify-center gap-2 text-sm sm:text-base active:scale-95';
+            addBtn.innerHTML = '<i class="fas fa-cart-plus"></i> Añadir al Carrito';
+            addBtn.onclick = () => {
                 addToCart(p.id);
                 closeDetailModal();
-            }
-        };
+            };
+        }
     }
 
     document.getElementById('product-detail-modal').classList.remove('hidden');
@@ -316,7 +337,7 @@ function closeDetailModal() {
     if (modal) modal.classList.add('hidden');
 }
 
-// Envío de pedido por WhatsApp optimizado con el número oficial de Shine
+// Envío de pedido por WhatsApp del carrito general
 function sendWhatsAppOrder() {
     if (cart.length === 0) return showCustomAlert("Tu carrito está vacío. Agrega productos para realizar un pedido.", "Carrito Vacío");
 
