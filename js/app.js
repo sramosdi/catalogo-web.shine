@@ -50,12 +50,12 @@ async function fetchProductos() {
 function renderCategories() {
     const categories = [
         "Todos",
-        "Bolsos",
-        "Carteras",
-        "Mochilas",
         "Victoria's Secret",
-        "Accesorios",
-        "Productos Nacionales"
+        "Damas",
+        "Hogar",
+        "Caballeros",
+        "Herramientas",
+        "Niños"
     ];
 
     const container = document.getElementById('categories-wrapper');
