@@ -55,7 +55,8 @@ function renderCategories() {
         "Mochilas",
         "Victoria's Secret",
         "Accesorios",
-        "Productos Nacionales"
+        "Productos Nacionales",
+        "A pedido"
     ];
 
     const container = document.getElementById('categories-wrapper');
@@ -63,7 +64,7 @@ function renderCategories() {
 
     container.innerHTML = categories.map(cat => `
         <button onclick="selectCategory(\`${cat}\`)" 
-                class="category-btn px-4 py-1.5 rounded-full text-sm font-semibold whitespace-nowrap transition duration-200 
+                class="category-btn px-4 py-1.5 rounded-full text-sm font-semibold whitespace-nowrap transition duration-200 shrink-0
                        ${cat === selectedCategory ? 'bg-indigo-600 text-white shadow' : 'bg-gray-100 text-gray-600 hover:bg-gray-200'}">
             ${cat}
         </button>
@@ -98,7 +99,7 @@ function renderSubcategories() {
         
         subContainer.innerHTML = currentSubcategories.map(sub => `
             <button onclick="selectSubcategory(\`${sub}\`)" 
-                    class="px-4 py-1 rounded-full text-xs font-semibold transition duration-200 whitespace-nowrap
+                    class="shrink-0 px-4 py-1 rounded-full text-xs font-semibold transition duration-200 whitespace-nowrap
                            ${sub === selectedSubcategory 
                                ? 'bg-purple-600 text-white shadow-sm' 
                                : 'bg-purple-50 text-purple-700 hover:bg-purple-100 border border-purple-200'}">
