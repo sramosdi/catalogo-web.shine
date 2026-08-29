@@ -206,7 +206,7 @@ function addToCart(id) {
         if (itemInCart.cantidad < product.stock) {
             itemInCart.cantidad++;
         } else {
-            alert(`Solo hay ${product.stock} unidades disponibles de este producto.`);
+            showCustomAlert(`Solo hay ${product.stock} unidades disponibles de este producto.`);
         }
     } else {
         cart.push({ ...product, cantidad: 1 });
@@ -221,7 +221,7 @@ function updateQuantity(id, delta) {
     const product = productos.find(p => p.id === id);
 
     if (delta > 0 && product && item.cantidad >= product.stock) {
-        alert(`Solo hay ${product.stock} unidades disponibles.`);
+        showCustomAlert(`Solo hay ${product.stock} unidades disponibles.`);
         return;
     }
 
@@ -318,7 +318,7 @@ function closeDetailModal() {
 
 // Envío de pedido por WhatsApp optimizado con el número oficial de Shine
 function sendWhatsAppOrder() {
-    if (cart.length === 0) return alert("Tu carrito está vacío.");
+    if (cart.length === 0) return showCustomAlert("Tu carrito está vacío. Agrega productos para realizar un pedido.", "Carrito Vacío");
 
     let message = "¡Hola Shine Be Yourself! ✨ Quisiera realizar el siguiente pedido desde el catálogo virtual:\n\n";
     cart.forEach(item => {
@@ -330,4 +330,24 @@ function sendWhatsAppOrder() {
 
     const encoded = encodeURIComponent(message);
     window.open(`https://wa.me/${PHONE_NUMBER}?text=${encoded}`, '_blank');
+}
+
+// Funciones de Alerta Personalizada (Modal emergente estilizado)
+function showCustomAlert(message, title = "Límite de Stock") {
+    const alertModal = document.getElementById('custom-alert-modal');
+    const alertTitle = document.getElementById('custom-alert-title');
+    const alertMsg = document.getElementById('custom-alert-message');
+
+    if (alertModal && alertTitle && alertMsg) {
+        alertTitle.innerText = title;
+        alertMsg.innerText = message;
+        alertModal.classList.remove('hidden');
+    } else {
+        alert(message);
+    }
+}
+
+function closeCustomAlert() {
+    const alertModal = document.getElementById('custom-alert-modal');
+    if (alertModal) alertModal.classList.add('hidden');
 }

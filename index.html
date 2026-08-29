@@ -18,11 +18,11 @@
     <!-- Header Principal (Sticky en top-0) -->
     <header id="main-header" class="bg-indigo-600 text-white sticky top-0 z-40 shadow-lg">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between gap-4">
-            <!-- Brand / Logo -->
-            <div class="flex items-center gap-2">
+            <!-- Brand / Logo (Recarga y vuelve al inicio) -->
+            <a href="index.html" class="flex items-center gap-2 cursor-pointer hover:opacity-90 transition">
                 <i class="fas fa-store text-2xl text-amber-300"></i>
                 <h1 class="text-xl font-black tracking-wide bg-gradient-to-r from-white to-indigo-200 bg-clip-text text-transparent">Shine.tpp</h1>
-            </div>
+            </a>
 
             <!-- Buscador Rápido (Desktop / Tablet) -->
             <div class="hidden md:flex flex-1 max-w-md relative">
@@ -142,6 +142,28 @@
                     </button>
                 </div>
             </div>
+        </div>
+    </div>
+
+    <!-- Modal de Alerta Personalizada (Reemplazo de alert nativo) -->
+    <div id="custom-alert-modal" class="fixed inset-0 z-50 hidden flex items-center justify-center p-4">
+        <div class="absolute inset-0 bg-black/60 backdrop-blur-sm" onclick="closeCustomAlert()"></div>
+        
+        <div class="bg-white rounded-3xl max-w-sm w-full z-10 p-6 text-center shadow-2xl relative transform transition-all flex flex-col items-center">
+            <button onclick="closeCustomAlert()" class="absolute top-4 right-4 text-gray-400 hover:text-gray-600 font-bold text-lg w-7 h-7 flex items-center justify-center rounded-full transition">
+                &times;
+            </button>
+
+            <div class="w-16 h-16 bg-amber-50 rounded-full flex items-center justify-center mb-4 text-amber-500 text-2xl border border-amber-200 shadow-sm">
+                <i class="fas fa-exclamation-triangle"></i>
+            </div>
+
+            <h3 id="custom-alert-title" class="text-xl font-extrabold text-gray-800">Límite de Stock</h3>
+            <p id="custom-alert-message" class="text-gray-500 text-sm mt-2 leading-relaxed px-2"></p>
+
+            <button onclick="closeCustomAlert()" class="w-full mt-6 bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3 px-4 rounded-xl shadow-lg transition active:scale-95 text-sm">
+                Entendido
+            </button>
         </div>
     </div>
 
