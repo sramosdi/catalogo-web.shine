@@ -209,7 +209,7 @@ function requestOnOrder(productId) {
     const message = `¡Hola Shine Be Yourself! ✨ Me interesa solicitar *A PEDIDO* el siguiente producto que figura como agotado en el catálogo:\n\n` +
                     `📌 *Producto:* ${prod.nombre}\n` +
                     `💰 *Precio referencial:* S/ ${(Number(prod.precio) || 0).toFixed(2)}\n\n` +
-                    `¿Me podrían brindar información sobre los tiempos de importación/llegada y cómo realizar la reserva?`;
+                    `¿Me podrían brindar información sobre el tiempo de llegada y cómo realizar la reserva?`;
 
     const encoded = encodeURIComponent(message);
     window.open(`https://wa.me/${PHONE_NUMBER}?text=${encoded}`, '_blank');
