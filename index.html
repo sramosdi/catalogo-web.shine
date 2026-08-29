@@ -15,8 +15,8 @@
 </head>
 <body class="bg-gray-100 text-gray-800 antialiased font-sans min-h-screen flex flex-col">
 
-    <!-- Header Principal -->
-    <header class="bg-indigo-600 text-white sticky top-0 z-40 shadow-lg">
+    <!-- Header Principal (Sticky en top-0) -->
+    <header id="main-header" class="bg-indigo-600 text-white sticky top-0 z-40 shadow-lg">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between gap-4">
             <!-- Brand / Logo -->
             <div class="flex items-center gap-2">
@@ -49,28 +49,28 @@
     </header>
 
     <!-- Banner Promocional / Hero Section -->
-    <section class="bg-gradient-to-r from-indigo-700 via-indigo-600 to-purple-600 text-white py-10 px-4 shadow-inner">
+    <section class="bg-gradient-to-r from-indigo-700 via-indigo-600 to-purple-600 text-white py-8 px-4 shadow-inner">
         <div class="max-w-7xl mx-auto text-center">
-            <span class="inline-block bg-indigo-800 text-amber-300 text-xs font-bold px-3 py-1 rounded-full mb-3 uppercase tracking-wider">Novedades 2026</span>
-            <h2 class="text-3xl sm:text-4xl font-extrabold mb-2">Bienvenidos a Shine Tarapoto</h2>
-            <p class="text-indigo-100 text-sm sm:text-base max-w-xl mx-auto">Selecciona tus artículos favoritos y realiza tu pedido directamente por WhatsApp en segundos.</p>
+            <span class="inline-block bg-indigo-800 text-amber-300 text-xs font-bold px-3 py-1 rounded-full mb-2 uppercase tracking-wider">Novedades 2026</span>
+            <h2 class="text-2xl sm:text-4xl font-extrabold mb-1">Bienvenidos a Shine Tarapoto</h2>
+            <p class="text-indigo-100 text-xs sm:text-base max-w-xl mx-auto">Selecciona tus artículos favoritos y realiza tu pedido directamente por WhatsApp en segundos.</p>
         </div>
     </section>
 
-    <!-- Categorías (Tabs de filtro) -->
-    <div class="bg-white border-b sticky top-16 z-30 shadow-sm">
-        <div class="max-w-7xl mx-auto px-4 py-3">
+    <!-- Categorías (Sticky siempre visible tanto en móvil como en escritorio) -->
+    <div class="bg-white border-b sticky top-[108px] md:top-16 z-30 shadow-md transition-all">
+        <div class="max-w-7xl mx-auto px-4 py-2.5">
             <!-- Categorías principales -->
-            <div id="categories-wrapper" class="flex gap-2 overflow-x-auto no-scrollbar py-1">
+            <div id="categories-wrapper" class="flex gap-2 overflow-x-auto no-scrollbar py-0.5">
                 <!-- Se llenan dinámicamente -->
             </div>
             <!-- Subcategorías dinámicas -->
-            <div id="subcategories-wrapper" class="flex justify-center gap-3 my-3 hidden"></div>
+            <div id="subcategories-wrapper" class="flex justify-center gap-3 my-2 hidden"></div>
         </div>
     </div>
 
     <!-- Contenido Principal: Grilla de Productos -->
-    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex-grow w-full">
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 flex-grow w-full">
         <div id="products-grid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
             <!-- Renderizado dinámico desde app.js -->
         </div>
@@ -150,7 +150,7 @@
         <p>© 2026 Mi Catálogo Virtual Shine Tarapoto. Todos los derechos reservados.</p>
     </footer>
 
-    <!-- Script Principal conectado a Google Sheets -->
+    <!-- Script Principal -->
     <script src="js/app.js"></script>
 </body>
 </html>
