@@ -231,11 +231,13 @@ function addToCart(id) {
     if (itemInCart) {
         if (itemInCart.cantidad < product.stock) {
             itemInCart.cantidad++;
+            showToast(`¡${product.nombre} añadido (+1)!`);
         } else {
             showCustomAlert(`Solo hay ${product.stock} unidades disponibles de este producto.`);
         }
     } else {
         cart.push({ ...product, cantidad: 1 });
+        showToast(`¡${product.nombre} agregado al carrito!`);
     }
     updateCartUI();
 }
@@ -378,4 +380,31 @@ function showCustomAlert(message, title = "Límite de Stock") {
 function closeCustomAlert() {
     const alertModal = document.getElementById('custom-alert-modal');
     if (alertModal) alertModal.classList.add('hidden');
+}
+
+// Sistema de Notificaciones Flotantes (Toast)
+function showToast(message, type = 'success') {
+    const container = document.getElementById('toast-container');
+    if (!container) return;
+
+    const toast = document.createElement('div');
+    toast.className = `pointer-events-auto bg-gray-900 text-white text-sm font-semibold px-4 py-3 rounded-xl shadow-2xl flex items-center gap-2 transform transition-all duration-300 opacity-0 translate-y-4 border border-gray-700`;
+    
+    const icon = type === 'success' ? 'fa-check-circle text-emerald-400' : 'fa-info-circle text-indigo-400';
+    toast.innerHTML = `<i class="fas ${icon} text-base"></i> <span>${message}</span>`;
+
+    container.appendChild(toast);
+
+    // Animación de entrada
+    setTimeout(() => {
+        toast.classList.remove('opacity-0', 'translate-y-4');
+        toast.classList.add('opacity-100', 'translate-y-0');
+    }, 10);
+
+    // Salida y destrucción automática tras 3 segundos
+    setTimeout(() => {
+        toast.classList.remove('opacity-100', 'translate-y-0');
+        toast.classList.add('opacity-0', 'translate-y-4');
+        setTimeout(() => toast.remove(), 300);
+    }, 3000);
 }

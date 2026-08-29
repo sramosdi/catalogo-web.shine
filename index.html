@@ -13,7 +13,7 @@
         .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
     </style>
 </head>
-<body class="bg-gray-100 text-gray-800 antialiased font-sans min-h-screen flex flex-col">
+<body class="bg-gray-100 text-gray-800 antialiased font-sans min-h-screen flex flex-col relative">
 
     <!-- Header Principal (Sticky en top-0) -->
     <header id="main-header" class="bg-indigo-600 text-white sticky top-0 z-40 shadow-lg">
@@ -167,12 +167,15 @@
         </div>
     </div>
 
+    <!-- Contenedor para Notificaciones Flotantes (Toast) -->
+    <div id="toast-container" class="fixed bottom-5 right-5 z-50 flex flex-col gap-2 pointer-events-none"></div>
+
     <!-- Footer -->
     <footer class="bg-gray-800 text-gray-400 text-center py-6 border-t text-sm">
         <p>© 2026 Mi Catálogo Virtual Shine Tarapoto. Todos los derechos reservados.</p>
     </footer>
 
     <!-- Script Principal con versión para evitar caché -->
-    <script src="js/app.js?v=2.2"></script>
+    <script src="js/app.js?v=2.3"></script>
 </body>
 </html>
