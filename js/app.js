@@ -55,7 +55,8 @@ function renderCategories() {
         "Mochilas",
         "Victoria's Secret",
         "Accesorios",
-        "Productos Nacionales"
+        "Productos Nacionales",
+        "A pedido"
     ];
 
     const container = document.getElementById('categories-wrapper');
@@ -80,18 +81,25 @@ function selectCategory(cat) {
     filterProducts();
 }
 
-// Renderizar subcategorías (solo en Victoria's Secret)
+// Renderizar subcategorías dinámicamente (Victoria's Secret y Productos Nacionales)
 function renderSubcategories() {
     const subContainer = document.getElementById('subcategories-wrapper');
     if (!subContainer) return;
 
-    if (selectedCategory === "Victoria's Secret") {
-        const subcategories = ["Todos", "Mists", "Lociones"];
+    // Mapa escalable de subcategorías
+    const subcategoriesMap = {
+        "Victoria's Secret": ["Todos", "Mists", "Lociones"],
+        "Productos Nacionales": ["Todos", "Calzado", "Belleza", "Hogar", "Electrónica", "Decoración", "Otros"]
+    };
+
+    const currentSubcategories = subcategoriesMap[selectedCategory];
+
+    if (currentSubcategories) {
         subContainer.classList.remove('hidden');
         
-        subContainer.innerHTML = subcategories.map(sub => `
+        subContainer.innerHTML = currentSubcategories.map(sub => `
             <button onclick="selectSubcategory(\`${sub}\`)" 
-                    class="px-5 py-1 rounded-full text-xs font-semibold transition duration-200 
+                    class="px-4 py-1 rounded-full text-xs font-semibold transition duration-200 whitespace-nowrap
                            ${sub === selectedSubcategory 
                                ? 'bg-purple-600 text-white shadow-sm' 
                                : 'bg-purple-50 text-purple-700 hover:bg-purple-100 border border-purple-200'}">
@@ -110,7 +118,7 @@ function selectSubcategory(sub) {
     filterProducts();
 }
 
-// Filtrar Productos con lecturas seguras
+// Filtrar Productos
 function filterProducts(isMobile = false) {
     const inputElement = document.getElementById(isMobile ? 'search-input-mobile' : 'search-input');
     const query = inputElement ? inputElement.value.toLowerCase() : '';
@@ -119,9 +127,7 @@ function filterProducts(isMobile = false) {
         const matchesCategory = selectedCategory === "Todos" || p.categoria === selectedCategory;
         
         const subcatVal = p.subcategoria || '';
-        const matchesSubcategory = selectedCategory !== "Victoria's Secret" || 
-                                   selectedSubcategory === "Todos" || 
-                                   subcatVal === selectedSubcategory;
+        const matchesSubcategory = selectedSubcategory === "Todos" || subcatVal === selectedSubcategory;
                                    
         const matchesQuery = (p.nombre || '').toLowerCase().includes(query) || 
                              (p.descripcion || '').toLowerCase().includes(query);
@@ -132,7 +138,7 @@ function filterProducts(isMobile = false) {
     renderProducts(filtered);
 }
 
-// Renderizar la grilla de productos con soporte dinámico para stock y botón "A pedido"
+// Renderizar la grilla de productos
 function renderProducts(items) {
     const grid = document.getElementById('products-grid');
     const emptyState = document.getElementById('empty-state');
@@ -208,7 +214,7 @@ function requestOnOrder(productId) {
     const message = `¡Hola Shine Be Yourself! ✨ Me interesa solicitar *A PEDIDO* el siguiente producto que figura como agotado en el catálogo:\n\n` +
                     `📌 *Producto:* ${prod.nombre}\n` +
                     `💰 *Precio referencial:* S/ ${(Number(prod.precio) || 0).toFixed(2)}\n\n` +
-                    `¿Me podrían brindar información sobre el tiempo de llegada y cómo realizar la reserva?`;
+                    `¿Me podrían brindar información sobre los tiempos de importación/llegada y cómo realizar la reserva?`;
 
     const encoded = encodeURIComponent(message);
     window.open(`https://wa.me/${PHONE_NUMBER}?text=${encoded}`, '_blank');
@@ -293,7 +299,7 @@ function toggleCartModal() {
     if (modal) modal.classList.toggle('hidden');
 }
 
-// Modal de detalle con botón condicional "Añadir al Carrito" o "Solicitar a Pedido"
+// Modal de detalle del producto
 function openDetailModal(id) {
     const p = productos.find(item => item.id === id);
     if (!p) return;
@@ -352,7 +358,7 @@ function sendWhatsAppOrder() {
     window.open(`https://wa.me/${PHONE_NUMBER}?text=${encoded}`, '_blank');
 }
 
-// Funciones de Alerta Personalizada (Modal emergente estilizado)
+// Funciones de Alerta Personalizada
 function showCustomAlert(message, title = "Límite de Stock") {
     const alertModal = document.getElementById('custom-alert-modal');
     const alertTitle = document.getElementById('custom-alert-title');
