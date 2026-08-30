@@ -212,7 +212,7 @@ function requestOnOrder(productId) {
     const message = `¡Hola Shine Be Yourself! ✨ Me interesa solicitar *A PEDIDO* el siguiente producto que figura como agotado en el catálogo:\n\n` +
                     `📌 *Producto:* ${prod.nombre}\n` +
                     `💰 *Precio:* S/ ${(Number(prod.precio) || 0).toFixed(2)}\n\n` +
-                    `¿Me podrían brindar información sobre el tiempo de importación/llegada y cómo realizar la reserva?`;
+                    `¿Me podrían brindar información sobre el tiempo de llegada y cómo realizar la reserva?`;
 
     const encoded = encodeURIComponent(message);
     window.open(`https://wa.me/${PHONE_NUMBER}?text=${encoded}`, '_blank');
@@ -230,7 +230,6 @@ function addToCart(id) {
             showToast(`Se aumentó la cantidad de "${product.nombre}"`, 'success', 'fa-cart-plus');
         } else {
             showToast(`Solo hay ${product.stock} unidades disponibles de este producto.`, 'warning', 'fa-exclamation-triangle');
-            showCustomAlert(`Solo hay ${product.stock} unidades disponibles de este producto.`);
         }
     } else {
         cart.push({ ...product, cantidad: 1 });
@@ -247,7 +246,6 @@ function updateQuantity(id, delta) {
 
     if (delta > 0 && product && item.cantidad >= product.stock) {
         showToast(`Límite alcanzado: solo ${product.stock} disponibles.`, 'warning', 'fa-exclamation-triangle');
-        showCustomAlert(`Solo hay ${product.stock} unidades disponibles.`);
         return;
     }
 
@@ -348,8 +346,8 @@ function closeDetailModal() {
 // Envío de pedido por WhatsApp
 function sendWhatsAppOrder() {
     if (cart.length === 0) {
-        showToast("Tu carrito está vacío", "warning", "fa-shopping-cart");
-        return showCustomAlert("Tu carrito está vacío. Agrega productos para realizar un pedido.", "Carrito Vacío");
+        showToast("Tu carrito está vacío. Agrega productos para realizar un pedido.", "warning", "fa-shopping-cart");
+        return;
     }
 
     let message = "¡Hola Shine Be Yourself! ✨ Quisiera realizar el siguiente pedido desde el catálogo virtual:\n\n";
