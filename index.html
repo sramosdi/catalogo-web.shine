@@ -16,25 +16,25 @@
 <body class="bg-gray-100 text-gray-800 antialiased font-sans min-h-screen flex flex-col">
 
     <!-- Header Principal (Sticky en top-0) -->
-    <header id="main-header" class="bg-indigo-600 text-white sticky top-0 z-40 shadow-lg">
+    <header id="main-header" class="bg-zinc-900 text-white sticky top-0 z-40 shadow-lg border-b border-zinc-800">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between gap-4">
             <!-- Brand / Logo -->
             <a href="index.html" class="flex items-center gap-2 cursor-pointer hover:opacity-90 transition">
-                <i class="fas fa-store text-2xl text-amber-300"></i>
-                <h1 class="text-xl font-black tracking-wide bg-gradient-to-r from-white to-indigo-200 bg-clip-text text-transparent">Shine.tpp</h1>
+                <i class="fas fa-store text-2xl text-amber-400"></i>
+                <h1 class="text-xl font-black tracking-wide bg-gradient-to-r from-white via-gray-200 to-amber-300 bg-clip-text text-transparent">Shine.tpp</h1>
             </a>
 
             <!-- Buscador Rápido (Desktop / Tablet) -->
             <div class="hidden md:flex flex-1 max-w-md relative">
                 <input type="text" id="search-input" onkeyup="filterProducts()" placeholder="Buscar producto..." 
-                       class="w-full bg-indigo-700 text-white placeholder-indigo-300 rounded-full py-2 pl-10 pr-4 focus:outline-none focus:ring-2 focus:ring-amber-300 text-sm">
-                <i class="fas fa-search absolute left-3.5 top-3 text-indigo-300 text-sm"></i>
+                       class="w-full bg-zinc-800 text-white placeholder-zinc-400 rounded-full py-2 pl-10 pr-4 focus:outline-none focus:ring-2 focus:ring-amber-400 text-sm border border-zinc-700">
+                <i class="fas fa-search absolute left-3.5 top-3 text-zinc-400 text-sm"></i>
             </div>
 
             <!-- Botón de Carrito -->
-            <button onclick="toggleCartModal()" class="relative bg-indigo-700 hover:bg-indigo-800 text-white p-2.5 rounded-full flex items-center justify-center transition shadow-inner">
-                <i class="fas fa-shopping-cart text-lg"></i>
-                <span id="cart-badge" class="absolute -top-1 -right-1 bg-amber-400 text-indigo-950 text-xs font-black w-5 h-5 rounded-full flex items-center justify-center border-2 border-indigo-600">0</span>
+            <button onclick="toggleCartModal()" class="relative bg-zinc-800 hover:bg-zinc-700 text-white p-2.5 rounded-full flex items-center justify-center transition shadow-inner border border-zinc-700">
+                <i class="fas fa-shopping-cart text-lg text-amber-400"></i>
+                <span id="cart-badge" class="absolute -top-1 -right-1 bg-amber-400 text-zinc-950 text-xs font-black w-5 h-5 rounded-full flex items-center justify-center border-2 border-zinc-900">0</span>
             </button>
         </div>
 
@@ -42,18 +42,18 @@
         <div class="md:hidden px-4 pb-3">
             <div class="relative">
                 <input type="text" id="search-input-mobile" onkeyup="filterProducts(true)" placeholder="Buscar producto..." 
-                       class="w-full bg-indigo-700 text-white placeholder-indigo-300 rounded-full py-2 pl-10 pr-4 focus:outline-none focus:ring-2 focus:ring-amber-300 text-sm">
-                <i class="fas fa-search absolute left-3.5 top-3 text-indigo-300 text-sm"></i>
+                       class="w-full bg-zinc-800 text-white placeholder-zinc-400 rounded-full py-2 pl-10 pr-4 focus:outline-none focus:ring-2 focus:ring-amber-400 text-sm border border-zinc-700">
+                <i class="fas fa-search absolute left-3.5 top-3 text-zinc-400 text-sm"></i>
             </div>
         </div>
     </header>
 
     <!-- Banner Promocional / Hero Section -->
-    <section class="bg-gradient-to-r from-indigo-700 via-indigo-600 to-purple-600 text-white py-8 px-4 shadow-inner">
+    <section class="bg-gradient-to-r from-zinc-950 via-zinc-900 to-zinc-950 text-white py-8 px-4 shadow-inner border-b border-zinc-800">
         <div class="max-w-7xl mx-auto text-center">
-            <span class="inline-block bg-indigo-800 text-amber-300 text-xs font-bold px-3 py-1 rounded-full mb-2 uppercase tracking-wider">Catálogo Virtual</span>
-            <h2 class="text-2xl sm:text-4xl font-extrabold mb-1">Bienvenidos a Shine Tarapoto</h2>
-            <p class="text-indigo-100 text-xs sm:text-base max-w-xl mx-auto">Selecciona tus productos favoritos importados y nacionales. Realiza tu pedido directamente por WhatsApp en segundos.</p>
+            <span class="inline-block bg-zinc-800 border border-amber-400/30 text-amber-400 text-xs font-bold px-3 py-1 rounded-full mb-2 uppercase tracking-wider">Catálogo Virtual</span>
+            <h2 class="text-2xl sm:text-4xl font-extrabold mb-1 tracking-tight">Bienvenidos a Shine Tarapoto</h2>
+            <p class="text-zinc-300 text-xs sm:text-base max-w-xl mx-auto">Selecciona tus productos favoritos importados y nacionales. Realiza tu pedido directamente por WhatsApp en segundos.</p>
         </div>
     </section>
 
@@ -85,14 +85,14 @@
 
     <!-- Modal de Carrito / Pedido (Slide-over) -->
     <div id="cart-modal" class="fixed inset-0 z-50 hidden">
-        <div class="absolute inset-0 bg-black/50 backdrop-blur-sm" onclick="toggleCartModal()"></div>
+        <div class="absolute inset-0 bg-black/60 backdrop-blur-sm" onclick="toggleCartModal()"></div>
         <div class="absolute right-0 top-0 bottom-0 w-full max-w-md bg-white shadow-2xl flex flex-col">
             <!-- Header Carrito -->
-            <div class="p-4 bg-indigo-600 text-white flex justify-between items-center">
+            <div class="p-4 bg-zinc-900 text-white flex justify-between items-center border-b border-zinc-800">
                 <h3 class="font-bold text-lg flex items-center gap-2">
-                    <i class="fas fa-shopping-bag"></i> Tu Pedido
+                    <i class="fas fa-shopping-bag text-amber-400"></i> Tu Pedido
                 </h3>
-                <button onclick="toggleCartModal()" class="text-white hover:text-gray-200 text-xl font-bold p-1">&times;</button>
+                <button onclick="toggleCartModal()" class="text-zinc-400 hover:text-white text-xl font-bold p-1">&times;</button>
             </div>
 
             <!-- Lista de Ítems -->
@@ -104,9 +104,9 @@
             <div class="p-4 border-t bg-gray-50 flex flex-col gap-3">
                 <div class="flex justify-between items-center font-bold text-lg text-gray-800">
                     <span>Total estimado:</span>
-                    <span id="cart-total" class="text-2xl text-indigo-600">S/ 0.00</span>
+                    <span id="cart-total" class="text-2xl text-zinc-900 font-black">S/ 0.00</span>
                 </div>
-                <button onclick="sendWhatsAppOrder()" class="w-full bg-green-500 hover:bg-green-600 text-white font-bold py-3.5 rounded-xl flex items-center justify-center gap-2 shadow-lg transition transform active:scale-95">
+                <button onclick="sendWhatsAppOrder()" class="w-full bg-green-600 hover:bg-green-700 text-white font-bold py-3.5 rounded-xl flex items-center justify-center gap-2 shadow-lg transition transform active:scale-95">
                     <i class="fab fa-whatsapp text-2xl"></i>
                     Confirmar Pedido por WhatsApp
                 </button>
@@ -125,7 +125,7 @@
             </div>
 
             <div class="p-6 flex flex-col">
-                <span id="modal-category" class="text-xs font-bold text-indigo-600 uppercase tracking-wider"></span>
+                <span id="modal-category" class="text-xs font-bold text-amber-600 uppercase tracking-wider"></span>
                 <h3 id="modal-title" class="text-2xl font-black text-gray-800 mt-1"></h3>
                 <p id="modal-description" class="text-gray-600 text-sm mt-2 leading-relaxed"></p>
                 
@@ -135,8 +135,8 @@
                         <span id="modal-price" class="text-xl sm:text-2xl font-black text-gray-900 whitespace-nowrap"></span>
                     </div>
                     
-                    <button id="modal-add-btn" class="flex-grow bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3 px-4 rounded-xl shadow transition flex items-center justify-center gap-2 text-sm sm:text-base">
-                        <i class="fas fa-cart-plus"></i> Añadir
+                    <button id="modal-add-btn" class="flex-grow bg-zinc-900 hover:bg-black text-white font-bold py-3 px-4 rounded-xl shadow transition flex items-center justify-center gap-2 text-sm sm:text-base border border-zinc-800">
+                        <i class="fas fa-cart-plus text-amber-400"></i> Añadir
                     </button>
                 </div>
             </div>
@@ -147,7 +147,7 @@
     <div id="toast-container" class="fixed bottom-5 right-5 z-50 flex flex-col gap-2 max-w-xs sm:max-w-sm w-full pointer-events-none px-4 sm:px-0"></div>
 
     <!-- Footer -->
-    <footer class="bg-gray-800 text-gray-400 text-center py-6 border-t text-sm">
+    <footer class="bg-zinc-900 text-zinc-400 text-center py-6 border-t border-zinc-800 text-sm">
         <p>© 2026 Mi Catálogo Virtual Shine Tarapoto. Todos los derechos reservados.</p>
     </footer>
 
