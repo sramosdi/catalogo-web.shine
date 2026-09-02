@@ -13,28 +13,28 @@
         .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
     </style>
 </head>
-<body class="bg-[#FAF7F2] text-amber-950 antialiased font-sans min-h-screen flex flex-col">
+<body class="bg-slate-50 text-slate-800 antialiased font-sans min-h-screen flex flex-col">
 
     <!-- Header Principal (Sticky en top-0) -->
-    <header id="main-header" class="bg-[#EFE6DC] text-amber-950 sticky top-0 z-40 shadow-sm border-b border-[#E2D4C3]">
+    <header id="main-header" class="bg-blue-600 text-white sticky top-0 z-40 shadow-md">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between gap-4">
             <!-- Brand / Logo -->
             <a href="index.html" class="flex items-center gap-2 cursor-pointer hover:opacity-90 transition">
-                <i class="fas fa-store text-2xl text-[#C5A059]"></i>
-                <h1 class="text-xl font-black tracking-wide text-amber-950">Shine.tpp</h1>
+                <i class="fas fa-store text-2xl text-amber-400"></i>
+                <h1 class="text-xl font-black tracking-wide text-white">Shine.tpp</h1>
             </a>
 
             <!-- Buscador Rápido (Desktop / Tablet) -->
             <div class="hidden md:flex flex-1 max-w-md relative">
                 <input type="text" id="search-input" onkeyup="filterProducts()" placeholder="Buscar producto..." 
-                       class="w-full bg-[#FDFBF7] text-amber-950 placeholder-amber-800/50 rounded-full py-2 pl-10 pr-4 focus:outline-none focus:ring-2 focus:ring-[#C5A059] text-sm border border-[#E2D4C3]">
-                <i class="fas fa-search absolute left-3.5 top-3 text-amber-800/50 text-sm"></i>
+                       class="w-full bg-blue-700 text-white placeholder-blue-200 rounded-full py-2 pl-10 pr-4 focus:outline-none focus:ring-2 focus:ring-amber-400 text-sm border border-blue-500">
+                <i class="fas fa-search absolute left-3.5 top-3 text-blue-200 text-sm"></i>
             </div>
 
             <!-- Botón de Carrito -->
-            <button onclick="toggleCartModal()" class="relative bg-[#E3D3C1] hover:bg-[#D8C4B0] text-amber-950 p-2.5 rounded-full flex items-center justify-center transition shadow-sm border border-[#D0BC9F]">
-                <i class="fas fa-shopping-cart text-lg text-amber-950"></i>
-                <span id="cart-badge" class="absolute -top-1 -right-1 bg-[#C5A059] text-white text-xs font-black w-5 h-5 rounded-full flex items-center justify-center border-2 border-[#EFE6DC]">0</span>
+            <button onclick="toggleCartModal()" class="relative bg-blue-700 hover:bg-blue-800 text-white p-2.5 rounded-full flex items-center justify-center transition shadow-sm border border-blue-500">
+                <i class="fas fa-shopping-cart text-lg"></i>
+                <span id="cart-badge" class="absolute -top-1 -right-1 bg-amber-400 text-slate-950 text-xs font-black w-5 h-5 rounded-full flex items-center justify-center border-2 border-blue-600">0</span>
             </button>
         </div>
 
@@ -42,23 +42,23 @@
         <div class="md:hidden px-4 pb-3">
             <div class="relative">
                 <input type="text" id="search-input-mobile" onkeyup="filterProducts(true)" placeholder="Buscar producto..." 
-                       class="w-full bg-[#FDFBF7] text-amber-950 placeholder-amber-800/50 rounded-full py-2 pl-10 pr-4 focus:outline-none focus:ring-2 focus:ring-[#C5A059] text-sm border border-[#E2D4C3]">
-                <i class="fas fa-search absolute left-3.5 top-3 text-amber-800/50 text-sm"></i>
+                       class="w-full bg-blue-700 text-white placeholder-blue-200 rounded-full py-2 pl-10 pr-4 focus:outline-none focus:ring-2 focus:ring-amber-400 text-sm border border-blue-500">
+                <i class="fas fa-search absolute left-3.5 top-3 text-blue-200 text-sm"></i>
             </div>
         </div>
     </header>
 
     <!-- Banner Promocional / Hero Section -->
-    <section class="bg-gradient-to-r from-[#EFE6DC] via-[#E6D7C3] to-[#EFE6DC] text-amber-950 py-8 px-4 border-b border-[#E2D4C3]">
+    <section class="bg-gradient-to-r from-blue-700 via-blue-600 to-indigo-700 text-white py-8 px-4 shadow-inner">
         <div class="max-w-7xl mx-auto text-center">
-            <span class="inline-block bg-[#D5B992] text-white text-xs font-bold px-3 py-1 rounded-full mb-2 uppercase tracking-wider shadow-sm">Catálogo Virtual</span>
-            <h2 class="text-2xl sm:text-4xl font-extrabold mb-1 tracking-tight text-amber-950">Bienvenidos a Shine Tarapoto</h2>
-            <p class="text-amber-900/80 text-xs sm:text-base max-w-xl mx-auto">Selecciona tus productos favoritos importados y nacionales. Realiza tu pedido directamente por WhatsApp en segundos.</p>
+            <span class="inline-block bg-amber-400 text-slate-950 text-xs font-bold px-3 py-1 rounded-full mb-2 uppercase tracking-wider shadow-sm">Catálogo Virtual</span>
+            <h2 class="text-2xl sm:text-4xl font-extrabold mb-1 tracking-tight">Bienvenidos a Shine Tarapoto</h2>
+            <p class="text-blue-100 text-xs sm:text-base max-w-xl mx-auto">Selecciona tus productos favoritos importados y nacionales. Realiza tu pedido directamente por WhatsApp en segundos.</p>
         </div>
     </section>
 
     <!-- Categorías (Sticky) -->
-    <div class="bg-white/90 backdrop-blur-md border-b border-[#E2D4C3] sticky top-[108px] md:top-16 z-30 shadow-sm transition-all">
+    <div class="bg-white border-b border-slate-200 sticky top-[108px] md:top-16 z-30 shadow-sm transition-all">
         <div class="max-w-7xl mx-auto px-4 py-2.5">
             <!-- Categorías principales -->
             <div id="categories-wrapper" class="flex gap-2 overflow-x-auto no-scrollbar py-0.5">
@@ -77,34 +77,34 @@
 
         <!-- Estado cuando no hay resultados -->
         <div id="empty-state" class="hidden text-center py-16">
-            <i class="fas fa-box-open text-5xl text-amber-800/30 mb-3"></i>
-            <h3 class="text-lg font-bold text-amber-950">No se encontraron productos</h3>
-            <p class="text-sm text-amber-800/60">Intenta buscar con otra palabra clave o categoría.</p>
+            <i class="fas fa-box-open text-5xl text-slate-300 mb-3"></i>
+            <h3 class="text-lg font-bold text-slate-600">No se encontraron productos</h3>
+            <p class="text-sm text-slate-400">Intenta buscar con otra palabra clave o categoría.</p>
         </div>
     </main>
 
     <!-- Modal de Carrito / Pedido (Slide-over) -->
     <div id="cart-modal" class="fixed inset-0 z-50 hidden">
-        <div class="absolute inset-0 bg-amber-950/40 backdrop-blur-sm" onclick="toggleCartModal()"></div>
+        <div class="absolute inset-0 bg-slate-900/50 backdrop-blur-sm" onclick="toggleCartModal()"></div>
         <div class="absolute right-0 top-0 bottom-0 w-full max-w-md bg-white shadow-2xl flex flex-col">
             <!-- Header Carrito -->
-            <div class="p-4 bg-[#EFE6DC] text-amber-950 flex justify-between items-center border-b border-[#E2D4C3]">
+            <div class="p-4 bg-blue-600 text-white flex justify-between items-center">
                 <h3 class="font-bold text-lg flex items-center gap-2">
-                    <i class="fas fa-shopping-bag text-[#C5A059]"></i> Tu Pedido
+                    <i class="fas fa-shopping-bag text-amber-400"></i> Tu Pedido
                 </h3>
-                <button onclick="toggleCartModal()" class="text-amber-900 hover:text-amber-950 text-xl font-bold p-1">&times;</button>
+                <button onclick="toggleCartModal()" class="text-white hover:text-slate-200 text-xl font-bold p-1">&times;</button>
             </div>
 
             <!-- Lista de Ítems -->
-            <div id="cart-items-container" class="p-4 overflow-y-auto flex-grow divide-y divide-[#E2D4C3]">
+            <div id="cart-items-container" class="p-4 overflow-y-auto flex-grow divide-y divide-slate-100">
                 <!-- Productos agregados -->
             </div>
 
             <!-- Footer Carrito -->
-            <div class="p-4 border-t border-[#E2D4C3] bg-[#FAF7F2] flex flex-col gap-3">
-                <div class="flex justify-between items-center font-bold text-lg text-amber-950">
+            <div class="p-4 border-t border-slate-200 bg-slate-50 flex flex-col gap-3">
+                <div class="flex justify-between items-center font-bold text-lg text-slate-800">
                     <span>Total estimado:</span>
-                    <span id="cart-total" class="text-2xl text-amber-950 font-black">S/ 0.00</span>
+                    <span id="cart-total" class="text-2xl text-blue-600 font-black">S/ 0.00</span>
                 </div>
                 <button onclick="sendWhatsAppOrder()" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-3.5 rounded-xl flex items-center justify-center gap-2 shadow-lg transition transform active:scale-95">
                     <i class="fab fa-whatsapp text-2xl"></i>
@@ -116,27 +116,27 @@
 
     <!-- Modal Detalle del Producto -->
     <div id="product-detail-modal" class="fixed inset-0 z-50 hidden flex items-center justify-center p-4">
-        <div class="absolute inset-0 bg-amber-950/40 backdrop-blur-sm" onclick="closeDetailModal()"></div>
-        <div class="bg-white rounded-2xl max-w-lg w-full z-10 overflow-hidden shadow-2xl relative flex flex-col border border-[#E2D4C3]">
-            <button onclick="closeDetailModal()" class="absolute top-3 right-3 bg-white/80 hover:bg-white text-amber-950 rounded-full w-8 h-8 flex items-center justify-center shadow font-bold z-20">&times;</button>
+        <div class="absolute inset-0 bg-slate-900/60 backdrop-blur-sm" onclick="closeDetailModal()"></div>
+        <div class="bg-white rounded-2xl max-w-lg w-full z-10 overflow-hidden shadow-2xl relative flex flex-col border border-slate-100">
+            <button onclick="closeDetailModal()" class="absolute top-3 right-3 bg-white/80 hover:bg-white text-slate-800 rounded-full w-8 h-8 flex items-center justify-center shadow font-bold z-20">&times;</button>
             
-            <div class="relative w-full h-64 sm:h-80 bg-[#FAF7F2] flex items-center justify-center p-4 overflow-hidden border-b border-[#E2D4C3]">
+            <div class="relative w-full h-64 sm:h-80 bg-slate-50 flex items-center justify-center p-4 overflow-hidden border-b border-slate-100">
                 <img id="modal-img" src="" alt="" class="max-h-full max-w-full object-contain mx-auto">
             </div>
 
             <div class="p-6 flex flex-col">
-                <span id="modal-category" class="text-xs font-bold text-[#C5A059] uppercase tracking-wider"></span>
-                <h3 id="modal-title" class="text-2xl font-black text-amber-950 mt-1"></h3>
-                <p id="modal-description" class="text-amber-900/70 text-sm mt-2 leading-relaxed"></p>
+                <span id="modal-category" class="text-xs font-bold text-blue-600 uppercase tracking-wider"></span>
+                <h3 id="modal-title" class="text-2xl font-black text-slate-800 mt-1"></h3>
+                <p id="modal-description" class="text-slate-600 text-sm mt-2 leading-relaxed"></p>
                 
-                <div class="mt-6 flex items-center justify-between gap-4 border-t border-[#E2D4C3] pt-4">
+                <div class="mt-6 flex items-center justify-between gap-4 border-t border-slate-100 pt-4">
                     <div class="shrink-0">
-                        <span class="text-xs text-amber-800/60 block font-medium">Precio</span>
-                        <span id="modal-price" class="text-xl sm:text-2xl font-black text-amber-950 whitespace-nowrap"></span>
+                        <span class="text-xs text-slate-400 block font-medium">Precio</span>
+                        <span id="modal-price" class="text-xl sm:text-2xl font-black text-slate-900 whitespace-nowrap"></span>
                     </div>
                     
-                    <button id="modal-add-btn" class="flex-grow bg-[#E3D3C1] hover:bg-[#D8C4B0] text-amber-950 font-bold py-3 px-4 rounded-xl shadow-sm transition flex items-center justify-center gap-2 text-sm sm:text-base border border-[#D0BC9F]">
-                        <i class="fas fa-cart-plus text-[#C5A059]"></i> Añadir
+                    <button id="modal-add-btn" class="flex-grow bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-4 rounded-xl shadow transition flex items-center justify-center gap-2 text-sm sm:text-base">
+                        <i class="fas fa-cart-plus text-amber-300"></i> Añadir
                     </button>
                 </div>
             </div>
@@ -147,7 +147,7 @@
     <div id="toast-container" class="fixed bottom-5 right-5 z-50 flex flex-col gap-2 max-w-xs sm:max-w-sm w-full pointer-events-none px-4 sm:px-0"></div>
 
     <!-- Footer -->
-    <footer class="bg-[#EFE6DC] text-amber-900/80 text-center py-6 border-t border-[#E2D4C3] text-sm mt-auto">
+    <footer class="bg-slate-800 text-slate-400 text-center py-6 border-t border-slate-700 text-sm mt-auto">
         <p>© 2026 Mi Catálogo Virtual Shine Tarapoto. Todos los derechos reservados.</p>
     </footer>
 
