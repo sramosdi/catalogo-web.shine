@@ -36,7 +36,7 @@ function showLoadingState() {
                     <i class="fas fa-store text-indigo-600 text-xs absolute"></i>
                 </div>
                 <div>
-                    <p class="text-gray-800 font-bold text-base">Tu tienda virtual Shine Be Yourself Tarapoto te da la bienvenida...</p>
+                    <p class="text-gray-800 font-bold text-base">Tu tienda virtual "Shine Be Yourself" Tarapoto, te da la bienvenida...</p>
                     <p class="text-gray-400 text-xs mt-1">Conectando con Google Sheets</p>
                 </div>
             </div>
