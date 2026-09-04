@@ -64,7 +64,7 @@ function renderCategories() {
     if (!container) return;
 
     container.innerHTML = categories.map(cat => `
-        <button onclick="selectCategory(\`${cat}\`)" 
+        <button onclick="selectCategory('${cat.replace(/'/g, "\\'")}')" 
                 class="category-btn px-4 py-1.5 rounded-full text-sm font-semibold whitespace-nowrap transition duration-200 shrink-0
                        ${cat === selectedCategory ? 'bg-indigo-600 text-white shadow' : 'bg-gray-100 text-gray-600 hover:bg-gray-200'}">
             ${cat}
@@ -104,7 +104,7 @@ function renderSubcategories() {
         subContainer.classList.remove('hidden');
         
         subContainer.innerHTML = currentSubcategories.map(sub => `
-            <button onclick="selectSubcategory(\`${sub}\`)" 
+            <button onclick="selectSubcategory('${sub.replace(/'/g, "\\'")}')" 
                     class="shrink-0 px-4 py-1 rounded-full text-xs font-semibold transition duration-200 whitespace-nowrap
                            ${sub === selectedSubcategory 
                                ? 'bg-purple-600 text-white shadow-sm' 
@@ -395,7 +395,6 @@ function showToast(message, type = 'success', icon = 'fa-check-circle') {
     const container = document.getElementById('toast-container');
     if (!container) return;
 
-    // Configuración visual según el tipo de mensaje
     let bgColors = 'bg-gray-900 border-gray-700 text-white';
     let iconColor = 'text-emerald-400';
 
@@ -421,12 +420,10 @@ function showToast(message, type = 'success', icon = 'fa-check-circle') {
 
     container.appendChild(toast);
 
-    // Animación de entrada
     requestAnimationFrame(() => {
         toast.classList.remove('translate-y-5', 'opacity-0');
     });
 
-    // Auto-eliminación tras 3.5 segundos
     setTimeout(() => {
         toast.classList.add('translate-y-2', 'opacity-0');
         setTimeout(() => toast.remove(), 300);
