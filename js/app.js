@@ -78,6 +78,9 @@ function selectCategory(cat) {
     renderCategories();
     renderSubcategories();
     filterProducts();
+
+    // Resetear el scroll arriba al cambiar de categoría
+    window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
 // Renderizar subcategorías dinámicamente
@@ -117,6 +120,9 @@ function selectSubcategory(sub) {
     selectedSubcategory = sub;
     renderSubcategories();
     filterProducts();
+
+    // Resetear el scroll arriba al cambiar de subcategoría
+    window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
 // Filtrar Productos
