@@ -18,11 +18,9 @@ async function fetchProductos() {
     const grid = document.getElementById('products-grid');
     if (grid) {
         grid.innerHTML = `
-            <div class="col-span-full text-center py-12 px-4">
-                <i class="fas fa-spinner fa-spin text-4xl text-indigo-600 mb-4"></i>
-                <p class="text-gray-700 font-bold text-base sm:text-lg max-w-md mx-auto leading-relaxed">
-                    Tu tienda virtual <span class="text-indigo-600 font-black">Shine Be Yourself</span> te da la bienvenida, espere mientras se actualice la lista de productos...
-                </p>
+            <div class="col-span-full text-center py-12">
+                <i class="fas fa-spinner fa-spin text-3xl text-indigo-600 mb-3"></i>
+                <p class="text-gray-500 font-medium">Cargando productos en vivo desde Google Sheets...</p>
             </div>
         `;
     }
