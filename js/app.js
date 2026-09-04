@@ -10,8 +10,39 @@ let selectedSubcategory = "Todos";
 
 // Cargar catálogo desde Google Sheets al iniciar la página
 document.addEventListener('DOMContentLoaded', () => {
+    // 1. Mostrar categorías iniciales inmediatamente para evitar layout en blanco
+    renderCategories();
+    renderSubcategories();
+    
+    // 2. Mostrar indicador visual de carga
+    showLoadingState();
+
+    // 3. Traer datos de Google Sheets
     fetchProductos();
 });
+
+// Muestra la animación de carga mientras responde la API
+function showLoadingState() {
+    const grid = document.getElementById('products-grid');
+    const emptyState = document.getElementById('empty-state');
+
+    if (emptyState) emptyState.classList.add('hidden');
+
+    if (grid) {
+        grid.innerHTML = `
+            <div class="col-span-full flex flex-col items-center justify-center py-16 text-center space-y-4">
+                <div class="relative flex items-center justify-center">
+                    <div class="w-12 h-12 border-4 border-indigo-200 border-t-indigo-600 rounded-full animate-spin"></div>
+                    <i class="fas fa-store text-indigo-600 text-xs absolute"></i>
+                </div>
+                <div>
+                    <p class="text-gray-800 font-bold text-base">Cargando productos en vivo...</p>
+                    <p class="text-gray-400 text-xs mt-1">Conectando con Google Sheets</p>
+                </div>
+            </div>
+        `;
+    }
+}
 
 // Función para obtener productos desde Google Sheets
 async function fetchProductos() {
@@ -21,7 +52,7 @@ async function fetchProductos() {
         const res = await fetch(API_URL);
         productos = await res.json();
         
-        // Inicializar interfaz una vez cargados los datos
+        // Renderizar datos una vez descargados
         renderCategories();
         renderSubcategories();
         filterProducts();
@@ -29,9 +60,13 @@ async function fetchProductos() {
         console.error("Error al cargar la base de datos:", error);
         if (grid) {
             grid.innerHTML = `
-                <div class="col-span-full text-center py-12 text-red-500 font-semibold">
-                    <i class="fas fa-exclamation-triangle text-3xl mb-2"></i>
-                    <p>No se pudieron cargar los productos. Intenta recargar la página.</p>
+                <div class="col-span-full text-center py-12 text-red-500 font-semibold bg-red-50 rounded-2xl border border-red-100 p-6">
+                    <i class="fas fa-exclamation-triangle text-3xl mb-2 text-red-500"></i>
+                    <p class="text-sm font-bold">No se pudieron cargar los productos.</p>
+                    <p class="text-xs text-red-400 mt-1">Intenta recargar la página o verifica tu conexión.</p>
+                    <button onclick="fetchProductos()" class="mt-4 px-4 py-2 bg-red-600 text-white text-xs font-bold rounded-xl shadow hover:bg-red-700 transition">
+                        Reintentar
+                    </button>
                 </div>
             `;
         }
@@ -127,7 +162,6 @@ function filterProducts(isMobile = false) {
     const query = inputElement ? inputElement.value.toLowerCase().trim() : '';
 
     const filtered = (typeof productos !== 'undefined' ? productos : []).filter(p => {
-        // Limpieza y normalización de textos para evitar fallos por "para" / "para el" o Mayúsculas
         const catProducto = (p.categoria || '').toString().toLowerCase().trim();
         const catSeleccionada = selectedCategory.toLowerCase().trim();
 
@@ -137,7 +171,7 @@ function filterProducts(isMobile = false) {
         // Validación flexible para Categoría
         const matchesCategory = selectedCategory === "Todos" || catProducto === catSeleccionada;
 
-        // Validación flexible para Subcategoría (ignora pequeñas variaciones de sintaxis)
+        // Validación flexible para Subcategoría
         const matchesSubcategory = selectedSubcategory === "Todos" || 
                                    subcatProducto === subcatSeleccionada ||
                                    subcatProducto.replace(" para el ", " para ") === subcatSeleccionada.replace(" para el ", " para ");
@@ -156,7 +190,6 @@ function filterProducts(isMobile = false) {
 function getBadgeStyle(badgeText) {
     if (!badgeText) return '';
     
-    // Normalizar texto (quita tildes y convierte a minúsculas)
     const text = badgeText.toString().toLowerCase().trim()
         .normalize("NFD").replace(/[\u0300-\u036f]/g, "");
 
@@ -400,7 +433,7 @@ function sendWhatsAppOrder() {
     window.open(`https://wa.me/${PHONE_NUMBER}?text=${encoded}`, '_blank');
 }
 
-// SISTEMA DE NOTIFICACIONES FLOTANTES (TOAST)
+// Sistema de Notificaciones Flotantes (Toast)
 function showToast(message, type = 'success', icon = 'fa-check-circle') {
     const container = document.getElementById('toast-container');
     if (!container) return;
