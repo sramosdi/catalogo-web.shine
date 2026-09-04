@@ -16,16 +16,6 @@ document.addEventListener('DOMContentLoaded', () => {
 // Función para obtener productos desde Google Sheets
 async function fetchProductos() {
     const grid = document.getElementById('products-grid');
-    if (grid) {
-        grid.innerHTML = `
-            <div class="col-span-full text-center py-12 px-4">
-                <i class="fas fa-spinner fa-spin text-4xl text-indigo-600 mb-4"></i>
-                <p class="text-gray-700 font-bold text-base sm:text-lg max-w-md mx-auto leading-relaxed">
-                    Tu tienda virtual <span class="text-indigo-600 font-black">Shine Be Yourself</span> te da la bienvenida, espere mientras se actualice la lista de productos...
-                </p>
-            </div>
-        `;
-    }
 
     try {
         const res = await fetch(API_URL);
@@ -63,13 +53,16 @@ function renderCategories() {
     const container = document.getElementById('categories-wrapper');
     if (!container) return;
 
-    container.innerHTML = categories.map(cat => `
-        <button onclick="selectCategory('${cat.replace(/'/g, "\\'")}')" 
-                class="category-btn px-4 py-1.5 rounded-full text-sm font-semibold whitespace-nowrap transition duration-200 shrink-0
-                       ${cat === selectedCategory ? 'bg-indigo-600 text-white shadow' : 'bg-gray-100 text-gray-600 hover:bg-gray-200'}">
-            ${cat}
-        </button>
-    `).join('');
+    container.innerHTML = "";
+    categories.forEach(cat => {
+        const btn = document.createElement('button');
+        btn.className = `category-btn px-4 py-1.5 rounded-full text-sm font-semibold whitespace-nowrap transition duration-200 shrink-0 ${
+            cat === selectedCategory ? 'bg-indigo-600 text-white shadow' : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+        }`;
+        btn.textContent = cat;
+        btn.onclick = () => selectCategory(cat);
+        container.appendChild(btn);
+    });
 }
 
 // Seleccionar categoría principal
@@ -81,7 +74,6 @@ function selectCategory(cat) {
     renderSubcategories();
     filterProducts();
 
-    // Resetear el scroll arriba al cambiar de categoría
     window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
@@ -102,16 +94,19 @@ function renderSubcategories() {
 
     if (currentSubcategories) {
         subContainer.classList.remove('hidden');
+        subContainer.innerHTML = "";
         
-        subContainer.innerHTML = currentSubcategories.map(sub => `
-            <button onclick="selectSubcategory('${sub.replace(/'/g, "\\'")}')" 
-                    class="shrink-0 px-4 py-1 rounded-full text-xs font-semibold transition duration-200 whitespace-nowrap
-                           ${sub === selectedSubcategory 
-                               ? 'bg-purple-600 text-white shadow-sm' 
-                               : 'bg-purple-50 text-purple-700 hover:bg-purple-100 border border-purple-200'}">
-                ${sub}
-            </button>
-        `).join('');
+        currentSubcategories.forEach(sub => {
+            const btn = document.createElement('button');
+            btn.className = `shrink-0 px-4 py-1 rounded-full text-xs font-semibold transition duration-200 whitespace-nowrap ${
+                sub === selectedSubcategory 
+                    ? 'bg-purple-600 text-white shadow-sm' 
+                    : 'bg-purple-50 text-purple-700 hover:bg-purple-100 border border-purple-200'
+            }`;
+            btn.textContent = sub;
+            btn.onclick = () => selectSubcategory(sub);
+            subContainer.appendChild(btn);
+        });
     } else {
         subContainer.classList.add('hidden');
     }
@@ -123,7 +118,6 @@ function selectSubcategory(sub) {
     renderSubcategories();
     filterProducts();
 
-    // Resetear el scroll arriba al cambiar de subcategoría
     window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
@@ -176,7 +170,6 @@ function renderProducts(items) {
                         <h3 onclick="openDetailModal(${prod.id})" class="font-bold text-gray-800 text-lg mt-1 cursor-pointer hover:text-indigo-600 transition line-clamp-1">${prod.nombre || ''}</h3>
                         <p class="text-gray-500 text-xs mt-1 line-clamp-2 leading-relaxed">${prod.descripcion || ''}</p>
                         
-                        <!-- Indicador Dinámico de Stock -->
                         <div class="mt-3">
                             ${!isOutOfStock 
                                 ? `<span class="inline-flex items-center gap-1.5 text-[11px] font-semibold text-emerald-700 bg-emerald-50 px-2.5 py-0.5 rounded-full border border-emerald-200/60">
@@ -226,7 +219,7 @@ function requestOnOrder(productId) {
     window.open(`https://wa.me/${PHONE_NUMBER}?text=${encoded}`, '_blank');
 }
 
-// Funciones del Carrito con Toast Integrado
+// Funciones del Carrito
 function addToCart(id) {
     const product = productos.find(p => p.id === id);
     if (!product || (product.stock ?? 0) <= 0) return;
@@ -370,26 +363,6 @@ function sendWhatsAppOrder() {
     window.open(`https://wa.me/${PHONE_NUMBER}?text=${encoded}`, '_blank');
 }
 
-// Funciones de Alerta Personalizada (Modal)
-function showCustomAlert(message, title = "Límite de Stock") {
-    const alertModal = document.getElementById('custom-alert-modal');
-    const alertTitle = document.getElementById('custom-alert-title');
-    const alertMsg = document.getElementById('custom-alert-message');
-
-    if (alertModal && alertTitle && alertMsg) {
-        alertTitle.innerText = title;
-        alertMsg.innerText = message;
-        alertModal.classList.remove('hidden');
-    } else {
-        alert(message);
-    }
-}
-
-function closeCustomAlert() {
-    const alertModal = document.getElementById('custom-alert-modal');
-    if (alertModal) alertModal.classList.add('hidden');
-}
-
 // SISTEMA DE NOTIFICACIONES FLOTANTES (TOAST)
 function showToast(message, type = 'success', icon = 'fa-check-circle') {
     const container = document.getElementById('toast-container');
@@ -404,9 +377,6 @@ function showToast(message, type = 'success', icon = 'fa-check-circle') {
     } else if (type === 'info') {
         bgColors = 'bg-indigo-900/90 border-indigo-600 text-indigo-100';
         iconColor = 'text-indigo-300';
-    } else if (type === 'error') {
-        bgColors = 'bg-red-900/90 border-red-600 text-red-100';
-        iconColor = 'text-red-300';
     }
 
     const toast = document.createElement('div');
