@@ -16,14 +16,6 @@ document.addEventListener('DOMContentLoaded', () => {
 // Función para obtener productos desde Google Sheets
 async function fetchProductos() {
     const grid = document.getElementById('products-grid');
-    if (grid) {
-        grid.innerHTML = `
-            <div class="col-span-full text-center py-12">
-                <i class="fas fa-spinner fa-spin text-3xl text-indigo-600 mb-3"></i>
-                <p class="text-gray-500 font-medium">Cargando productos en vivo desde Google Sheets...</p>
-            </div>
-        `;
-    }
 
     try {
         const res = await fetch(API_URL);
@@ -61,13 +53,16 @@ function renderCategories() {
     const container = document.getElementById('categories-wrapper');
     if (!container) return;
 
-    container.innerHTML = categories.map(cat => `
-        <button onclick="selectCategory(\`${cat}\`)" 
-                class="category-btn px-4 py-1.5 rounded-full text-sm font-semibold whitespace-nowrap transition duration-200 shrink-0
-                       ${cat === selectedCategory ? 'bg-indigo-600 text-white shadow' : 'bg-gray-100 text-gray-600 hover:bg-gray-200'}">
-            ${cat}
-        </button>
-    `).join('');
+    container.innerHTML = "";
+    categories.forEach(cat => {
+        const btn = document.createElement('button');
+        btn.className = `category-btn px-4 py-1.5 rounded-full text-sm font-semibold whitespace-nowrap transition duration-200 shrink-0 ${
+            cat === selectedCategory ? 'bg-indigo-600 text-white shadow' : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+        }`;
+        btn.textContent = cat;
+        btn.onclick = () => selectCategory(cat);
+        container.appendChild(btn);
+    });
 }
 
 // Seleccionar categoría principal
@@ -79,7 +74,6 @@ function selectCategory(cat) {
     renderSubcategories();
     filterProducts();
 
-    // Resetear el scroll arriba al cambiar de categoría
     window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
@@ -100,16 +94,19 @@ function renderSubcategories() {
 
     if (currentSubcategories) {
         subContainer.classList.remove('hidden');
+        subContainer.innerHTML = "";
         
-        subContainer.innerHTML = currentSubcategories.map(sub => `
-            <button onclick="selectSubcategory(\`${sub}\`)" 
-                    class="shrink-0 px-4 py-1 rounded-full text-xs font-semibold transition duration-200 whitespace-nowrap
-                           ${sub === selectedSubcategory 
-                               ? 'bg-purple-600 text-white shadow-sm' 
-                               : 'bg-purple-50 text-purple-700 hover:bg-purple-100 border border-purple-200'}">
-                ${sub}
-            </button>
-        `).join('');
+        currentSubcategories.forEach(sub => {
+            const btn = document.createElement('button');
+            btn.className = `shrink-0 px-4 py-1 rounded-full text-xs font-semibold transition duration-200 whitespace-nowrap ${
+                sub === selectedSubcategory 
+                    ? 'bg-purple-600 text-white shadow-sm' 
+                    : 'bg-purple-50 text-purple-700 hover:bg-purple-100 border border-purple-200'
+            }`;
+            btn.textContent = sub;
+            btn.onclick = () => selectSubcategory(sub);
+            subContainer.appendChild(btn);
+        });
     } else {
         subContainer.classList.add('hidden');
     }
@@ -121,19 +118,31 @@ function selectSubcategory(sub) {
     renderSubcategories();
     filterProducts();
 
-    // Resetear el scroll arriba al cambiar de subcategoría
     window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
-// Filtrar Productos
+// Filtrar Productos con coincidencia flexible de texto
 function filterProducts(isMobile = false) {
     const inputElement = document.getElementById(isMobile ? 'search-input-mobile' : 'search-input');
-    const query = inputElement ? inputElement.value.toLowerCase() : '';
+    const query = inputElement ? inputElement.value.toLowerCase().trim() : '';
 
     const filtered = (typeof productos !== 'undefined' ? productos : []).filter(p => {
-        const matchesCategory = selectedCategory === "Todos" || p.categoria === selectedCategory;
-        const subcatVal = p.subcategoria || '';
-        const matchesSubcategory = selectedSubcategory === "Todos" || subcatVal === selectedSubcategory;
+        // Limpieza y normalización de textos para evitar fallos por "para" / "para el" o Mayúsculas
+        const catProducto = (p.categoria || '').toString().toLowerCase().trim();
+        const catSeleccionada = selectedCategory.toLowerCase().trim();
+
+        const subcatProducto = (p.subcategoria || '').toString().toLowerCase().trim();
+        const subcatSeleccionada = selectedSubcategory.toLowerCase().trim();
+
+        // Validación flexible para Categoría
+        const matchesCategory = selectedCategory === "Todos" || catProducto === catSeleccionada;
+
+        // Validación flexible para Subcategoría (ignora pequeñas variaciones de sintaxis)
+        const matchesSubcategory = selectedSubcategory === "Todos" || 
+                                   subcatProducto === subcatSeleccionada ||
+                                   subcatProducto.replace(" para el ", " para ") === subcatSeleccionada.replace(" para el ", " para ");
+
+        // Búsqueda por texto en nombre o descripción
         const matchesQuery = (p.nombre || '').toLowerCase().includes(query) || 
                              (p.descripcion || '').toLowerCase().includes(query);
 
@@ -141,6 +150,30 @@ function filterProducts(isMobile = false) {
     });
 
     renderProducts(filtered);
+}
+
+// Función para asignar colores dinámicos a cada tipo de etiqueta (Badge)
+function getBadgeStyle(badgeText) {
+    if (!badgeText) return '';
+    
+    // Normalizar texto (quita tildes y convierte a minúsculas)
+    const text = badgeText.toString().toLowerCase().trim()
+        .normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+
+    switch (text) {
+        case 'clasico':
+            return 'bg-amber-400 text-indigo-950';        // Ámbar / Dorado
+        case 'coleccion':
+            return 'bg-purple-600 text-white';           // Púrpura elegante
+        case 'nuevo':
+            return 'bg-emerald-500 text-white';          // Verde brillante
+        case 'top ventas':
+        case 'top':
+        case 'oferta':
+            return 'bg-rose-600 text-white';             // Rojo vibrante
+        default:
+            return 'bg-indigo-600 text-white';           // Azul por defecto
+    }
 }
 
 // Renderizar la grilla de productos
@@ -165,7 +198,7 @@ function renderProducts(items) {
             <div class="bg-white rounded-2xl shadow-sm hover:shadow-xl transition-all duration-300 overflow-hidden border border-gray-100 flex flex-col group ${isOutOfStock ? 'opacity-90' : ''}">
                 <div class="relative overflow-hidden cursor-pointer h-52 bg-gray-50 flex items-center justify-center p-2" onclick="openDetailModal(${prod.id})">
                     <img src="${prod.imagen || ''}" alt="${prod.nombre || ''}" class="max-h-full max-w-full object-contain group-hover:scale-105 transition duration-500">
-                    ${prod.badge ? `<span class="absolute top-3 left-3 bg-amber-400 text-indigo-950 font-black text-xs px-2.5 py-1 rounded-full uppercase tracking-wider shadow z-10">${prod.badge}</span>` : ''}
+                    ${prod.badge ? `<span class="absolute top-3 left-3 ${getBadgeStyle(prod.badge)} font-black text-xs px-2.5 py-1 rounded-full uppercase tracking-wider shadow z-10">${prod.badge}</span>` : ''}
                 </div>
                 
                 <div class="p-5 flex-grow flex flex-col justify-between">
@@ -174,7 +207,6 @@ function renderProducts(items) {
                         <h3 onclick="openDetailModal(${prod.id})" class="font-bold text-gray-800 text-lg mt-1 cursor-pointer hover:text-indigo-600 transition line-clamp-1">${prod.nombre || ''}</h3>
                         <p class="text-gray-500 text-xs mt-1 line-clamp-2 leading-relaxed">${prod.descripcion || ''}</p>
                         
-                        <!-- Indicador Dinámico de Stock -->
                         <div class="mt-3">
                             ${!isOutOfStock 
                                 ? `<span class="inline-flex items-center gap-1.5 text-[11px] font-semibold text-emerald-700 bg-emerald-50 px-2.5 py-0.5 rounded-full border border-emerald-200/60">
@@ -224,7 +256,7 @@ function requestOnOrder(productId) {
     window.open(`https://wa.me/${PHONE_NUMBER}?text=${encoded}`, '_blank');
 }
 
-// Funciones del Carrito con Toast Integrado
+// Funciones del Carrito
 function addToCart(id) {
     const product = productos.find(p => p.id === id);
     if (!product || (product.stock ?? 0) <= 0) return;
@@ -368,32 +400,11 @@ function sendWhatsAppOrder() {
     window.open(`https://wa.me/${PHONE_NUMBER}?text=${encoded}`, '_blank');
 }
 
-// Funciones de Alerta Personalizada (Modal)
-function showCustomAlert(message, title = "Límite de Stock") {
-    const alertModal = document.getElementById('custom-alert-modal');
-    const alertTitle = document.getElementById('custom-alert-title');
-    const alertMsg = document.getElementById('custom-alert-message');
-
-    if (alertModal && alertTitle && alertMsg) {
-        alertTitle.innerText = title;
-        alertMsg.innerText = message;
-        alertModal.classList.remove('hidden');
-    } else {
-        alert(message);
-    }
-}
-
-function closeCustomAlert() {
-    const alertModal = document.getElementById('custom-alert-modal');
-    if (alertModal) alertModal.classList.add('hidden');
-}
-
 // SISTEMA DE NOTIFICACIONES FLOTANTES (TOAST)
 function showToast(message, type = 'success', icon = 'fa-check-circle') {
     const container = document.getElementById('toast-container');
     if (!container) return;
 
-    // Configuración visual según el tipo de mensaje
     let bgColors = 'bg-gray-900 border-gray-700 text-white';
     let iconColor = 'text-emerald-400';
 
@@ -403,9 +414,6 @@ function showToast(message, type = 'success', icon = 'fa-check-circle') {
     } else if (type === 'info') {
         bgColors = 'bg-indigo-900/90 border-indigo-600 text-indigo-100';
         iconColor = 'text-indigo-300';
-    } else if (type === 'error') {
-        bgColors = 'bg-red-900/90 border-red-600 text-red-100';
-        iconColor = 'text-red-300';
     }
 
     const toast = document.createElement('div');
@@ -419,12 +427,10 @@ function showToast(message, type = 'success', icon = 'fa-check-circle') {
 
     container.appendChild(toast);
 
-    // Animación de entrada
     requestAnimationFrame(() => {
         toast.classList.remove('translate-y-5', 'opacity-0');
     });
 
-    // Auto-eliminación tras 3.5 segundos
     setTimeout(() => {
         toast.classList.add('translate-y-2', 'opacity-0');
         setTimeout(() => toast.remove(), 300);
