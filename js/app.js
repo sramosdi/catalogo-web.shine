@@ -122,7 +122,7 @@ function renderSubcategories() {
         "Victoria's Secret": ["Todos", "Mists", "Lociones", "Mini Fragancias", "Fragancias para Cabello"],
         "Damas": ["Todos", "Calzado", "Carteras", "Mochilas", "Billeteras", "Morrales", "Relojes", "Lentes", "Cuidado Personal", "Fragancias", "Gorros"],
         "Hogar": ["Todos", "Cocina", "Decoración", "Organización"],
-        "Caballeros": ["Todos", "Gorros", "Morrales", "Relojes", "Billeteras", "Fragancias", "Lentes"],
+        "Caballeros": ["Todos", "Fragancias", "Morrales", "Relojes", "Billeteras", "Gorros", "Lentes"],
         "Niños": ["Todos", "Juguetes", "Accesorios"]
     };
 
