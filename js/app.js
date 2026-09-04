@@ -120,7 +120,7 @@ function renderSubcategories() {
 
     const subcategoriesMap = {
         "Victoria's Secret": ["Todos", "Mists", "Lociones", "Mini Fragancias", "Fragancias para Cabello"],
-        "Damas": ["Todos", "Calzado", "Carteras", "Mochilas", "Billeteras", "Morrales", "Relojes", "Lentes", "Cuidado Personal", "Gorros"],
+        "Damas": ["Todos", "Calzado", "Carteras", "Mochilas", "Billeteras", "Morrales", "Relojes", "Lentes", "Cuidado Personal", "Fragancias", "Gorros"],
         "Hogar": ["Todos", "Cocina", "Decoración", "Organización"],
         "Caballeros": ["Todos", "Gorros", "Morrales", "Relojes", "Billeteras", "Fragancias", "Lentes"],
         "Niños": ["Todos", "Juguetes", "Accesorios"]
